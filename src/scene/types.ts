@@ -12,3 +12,18 @@ export const SCENE_OF: Record<SectionId, SceneId> = {
   offduty: 'pulse',
   contact: 'point',
 };
+
+export interface SectionBox {
+  scene: SceneId;
+  top: number;
+  height: number;
+}
+
+export interface SceneState {
+  current: SceneId;
+  next: SceneId;
+  /** 0…1: Überblendung zur nächsten Szene. */
+  morph: number;
+  /** 0…1: Position der Referenzlinie im aktuellen Abschnitt. */
+  local: number;
+}
