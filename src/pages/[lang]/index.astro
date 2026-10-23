@@ -2,6 +2,7 @@
 import { getCollection, getEntry } from 'astro:content';
 import DotNav from '../../components/DotNav.astro';
 import Section from '../../components/Section.astro';
+import Career from '../../components/sections/Career.astro';
 import Contact from '../../components/sections/Contact.astro';
 import Hero from '../../components/sections/Hero.astro';
 import OffDuty from '../../components/sections/OffDuty.astro';
@@ -25,7 +26,7 @@ const labelOf = (id: string) => t(sections.find((s) => s.id === id)!.data.label,
 <Base lang={lang} title={`${profile.name} – ${t(profile.title, lang)}`} description={t(profile.summary, lang)}>
   <Hero lang={lang} />
   <Profile lang={lang} />
-  <Section id="career" index={2} scene={SCENE_OF.career} lang={lang} />
+  <Career lang={lang} />
   <Projects lang={lang} />
   <OffDuty lang={lang} />
   <Contact lang={lang} />

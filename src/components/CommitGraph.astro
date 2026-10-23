@@ -1,0 +1,88 @@
+---
+import { toCommits } from '../lib/career';
+import { t, type Lang } from '../lib/i18n';
+import type { Role } from '../lib/schemas';
+
+interface Props {
+  roles: Role[];
+  lang: Lang;
+}
+
+const { roles, lang } = Astro.props;
+const commits = toCommits(roles);
+const LANES = 3;
+const x = (lane: number) => ((lane + 0.5) / LANES) * 100;
+const now = lang === 'de' ? 'heute' : 'now';
+const year = (ym: string) => ym.slice(0, 4);
+---
+<ol class="commits">
+  {commits.map((c, i) => {
+    const above = commits[i - 1];
+    const below = commits[i + 1];
+    const xs = x(c.lane);
+    const range = `${year(c.role.start)} – ${c.role.end ? year(c.role.end) : now}`;
+    return (
+      <li class="commit" data-commit={c.hash} data-branch={c.role.branch}>
+        <div class="commit__graph" aria-hidden="true">
+          <svg class="commit-graph-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {above && <line x1={(x(above.lane) + xs) / 2} y1="0" x2={xs} y2="50" />}
+            {below && <line x1={xs} y1="50" x2={(x(below.lane) + xs) / 2} y2="100" />}
+          </svg>
+          <span class={`commit-node lane-${c.lane}`} style={`left: ${xs}%`}></span>
+        </div>
+        <details>
+          <summary>
+            <span class="hash">{c.hash}</span>
+            <span class="type">{c.type}:</span>
+            <span class="title">{t(c.role.title, lang)}</span>
+            <span class="meta">{c.role.company} · {range}</span>
+            {c.head && <span class="head">HEAD →</span>}
+          </summary>
+          <div class="diffbox">
+            <p class="summary">{t(c.role.summary, lang)}</p>
+            {c.role.location && <p class="loc">@ {t(c.role.location, lang)}</p>}
+            {c.role.diff.length > 0 && (
+              <ul class="diff">
+                {c.role.diff.map((line) => (
+                  <li class={line.type}><span aria-hidden="true">{line.type === 'add' ? '+' : '−'}</span> {t(line, lang)}</li>
+                ))}
+              </ul>
+            )}
+            {c.role.tech.length > 0 && <p class="tech">{c.role.tech.join(' · ')}</p>}
+          </div>
+        </details>
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .commits { list-style: none; margin: 3rem 0 0; padding: 0; }
+  .commit { display: grid; grid-template-columns: 3.75rem minmax(0, 1fr); gap: 0.75rem; }
+  .commit__graph { position: relative; }
+  .commit-graph-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .commit-graph-svg line { stroke: var(--indigo); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  :global(html.webgl) .commit-graph-svg { opacity: 0; }
+  .commit-node {
+    position: absolute; top: 1.35rem; width: 0.6rem; height: 0.6rem; margin: -0.3rem 0 0 -0.3rem;
+    border-radius: 50%; background: var(--bg); border: 1.5px solid var(--violet);
+  }
+  .commit-node.lane-0 { border-color: var(--cyan); }
+  .commit-node.lane-1 { border-color: var(--indigo); }
+  .commit:first-child .commit-node { background: var(--violet); }
+  details { padding: 0.6rem 0; border-bottom: 0.5px solid var(--line); min-width: 0; }
+  summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; align-items: baseline; }
+  summary::-webkit-details-marker { display: none; }
+  .hash, .type, .meta, .head, .loc, .tech { font-family: var(--font-mono); font-size: 0.8rem; }
+  .hash { color: var(--label); }
+  .type { color: var(--cyan); }
+  .title { font-size: 1.15rem; }
+  .meta { color: var(--label); }
+  .head { color: var(--violet); }
+  .diffbox { padding: 0.75rem 0 0.5rem; color: var(--text-2); overflow-wrap: anywhere; }
+  .diffbox p { margin: 0 0 0.5rem; }
+  .loc, .tech { color: var(--label); }
+  .diff { list-style: none; margin: 0 0 0.5rem; padding: 0; font-family: var(--font-mono); font-size: 0.85rem; }
+  .diff .add { color: var(--cyan); }
+  .diff .remove { color: #f09595; }
+</style>

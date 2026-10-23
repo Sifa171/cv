@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '../../lib/i18n';
+import { SCENE_OF } from '../../scene/types';
+import CommitGraph from '../CommitGraph.astro';
+import Section from '../Section.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const roles = (await getCollection('roles')).map((r) => r.data);
+---
+<Section id="career" index={2} scene={SCENE_OF.career} lang={lang}>
+  <CommitGraph roles={roles} lang={lang} />
+</Section>
