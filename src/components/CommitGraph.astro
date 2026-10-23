@@ -1,6 +1,7 @@
 ---
 import { toCommits } from '../lib/career';
 import { t, type Lang } from '../lib/i18n';
+import { formatPeriod } from '../lib/period';
 import type { Role } from '../lib/schemas';
 
 interface Props {
@@ -12,15 +13,13 @@ const { roles, lang } = Astro.props;
 const commits = toCommits(roles);
 const LANES = 3;
 const x = (lane: number) => ((lane + 0.5) / LANES) * 100;
-const now = lang === 'de' ? 'heute' : 'now';
-const year = (ym: string) => ym.slice(0, 4);
 ---
 <ol class="commits">
   {commits.map((c, i) => {
     const above = commits[i - 1];
     const below = commits[i + 1];
     const xs = x(c.lane);
-    const range = `${year(c.role.start)} – ${c.role.end ? year(c.role.end) : now}`;
+    const range = formatPeriod(c.role.start, c.role.end, lang);
     return (
       <li class="commit" data-commit={c.hash} data-branch={c.role.branch}>
         <div class="commit__graph" aria-hidden="true">

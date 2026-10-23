@@ -27,6 +27,8 @@ export const profileSchema = z.object({
   skills: z.array(z.string().min(1)).min(1),
   links: z.object({ linkedin: z.string().url(), github: z.string().url() }),
   portrait: z.string().optional(),
+  languages: z.array(z.object({ name: localized, level: localized })),
+  education: z.array(z.object({ institution: z.string().min(1), subject: localized, period: z.string().min(1), note: localized.optional() })),
 });
 
 export const SECTION_IDS = ['start', 'profile', 'career', 'projects', 'offduty', 'contact'] as const;

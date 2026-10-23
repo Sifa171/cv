@@ -13,9 +13,11 @@ interface Props {
   lang: 'de' | 'en';
   title: string;
   description: string;
+  bare?: boolean;
+  bodyClass?: string;
 }
 
-const { lang, title, description } = Astro.props;
+const { lang, title, description, bare = false, bodyClass } = Astro.props;
 const site = Astro.site!;
 const alternates = (['de', 'en'] as const).map((l) => ({
   hreflang: l,
@@ -35,11 +37,11 @@ const alternates = (['de', 'en'] as const).map((l) => ({
     <link rel="canonical" href={new URL(Astro.url.pathname, site).href} />
     <slot name="head" />
   </head>
-  <body>
-    <Nav lang={lang} />
+  <body class={bodyClass}>
+    {!bare && <Nav lang={lang} />}
     <main id="main">
       <slot />
     </main>
-    <Footer lang={lang} />
+    {!bare && <Footer lang={lang} />}
   </body>
 </html>
