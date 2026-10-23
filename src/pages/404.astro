@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base lang="en" title="404 Not Found – Sebastian Dehn" description="404 Not Found" bare alternates={false}>
+  <section class="notfound" data-scene="notfound" data-index="404">
+    <p class="mono-label">$ curl -I {Astro.url.pathname}</p>
+    <h1>404 Not Found</h1>
+    <p class="notfound__sub">Seite nicht gefunden · Page not found</p>
+    <p class="notfound__links"><a href="/de/">← Startseite</a><a href="/en/">← Home</a></p>
+  </section>
+</Base>
+
+<style>
+  .notfound { min-height: 100vh; display: grid; place-content: center; text-align: center; padding: 2rem var(--gutter); }
+  .notfound h1 { font-family: var(--font-mono); font-weight: 400; font-size: clamp(2rem, 7vw, 4.5rem); margin: 1rem 0; }
+  .notfound__sub { color: var(--text-2); margin: 0; }
+  .notfound__links { display: flex; gap: 2rem; justify-content: center; margin-top: 2.5rem; }
+  .notfound__links a { color: var(--cyan); text-decoration: none; }
+</style>

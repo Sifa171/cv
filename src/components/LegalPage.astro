@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+}
+
+const { lang, title } = Astro.props;
+---
+<Base lang={lang} title={`${title} – Sebastian Dehn`} description={title}>
+  <article class="legal">
+    <h1>{title}</h1>
+    <slot />
+  </article>
+</Base>
+
+<style>
+  .legal { max-width: 44rem; margin: 0 auto; padding: 8rem var(--gutter) 4rem; color: var(--text-2); }
+  .legal h1 { font-weight: 300; font-size: clamp(2rem, 5vw, 3rem); color: var(--text); margin: 0 0 2rem; }
+  .legal :global(h2) { font-family: var(--font-mono); font-weight: 400; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--label); margin: 2.5rem 0 0.75rem; }
+  .legal :global(p), .legal :global(li) { margin: 0 0 0.75rem; }
+  .legal :global(a) { color: var(--cyan); }
+</style>

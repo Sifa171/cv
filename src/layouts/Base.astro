@@ -15,9 +15,10 @@ interface Props {
   description: string;
   bare?: boolean;
   bodyClass?: string;
+  alternates?: boolean;
 }
 
-const { lang, title, description, bare = false, bodyClass } = Astro.props;
+const { lang, title, description, bare = false, bodyClass, alternates: withAlternates = true } = Astro.props;
 const site = Astro.site!;
 const alternates = (['de', 'en'] as const).map((l) => ({
   hreflang: l,
@@ -32,9 +33,9 @@ const alternates = (['de', 'en'] as const).map((l) => ({
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#06070a" />
-    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, site).href} />
+    {withAlternates && alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    {withAlternates && <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />}
+    {withAlternates && <link rel="canonical" href={new URL(Astro.url.pathname, site).href} />}
     <slot name="head" />
   </head>
   <body class={bodyClass}>
