@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 import DotNav from '../../components/DotNav.astro';
+import SceneCanvas from '../../components/SceneCanvas.astro';
 import Section from '../../components/Section.astro';
 import Career from '../../components/sections/Career.astro';
 import Contact from '../../components/sections/Contact.astro';
@@ -31,6 +32,7 @@ const labelOf = (id: string) => t(sections.find((s) => s.id === id)!.data.label,
   <OffDuty lang={lang} />
   <Contact lang={lang} />
   <SectionCounter lang={lang} first={labelOf('start')} />
+  <SceneCanvas />
   <DotNav lang={lang} items={SECTION_IDS.map((id) => ({ id, label: labelOf(id) }))} />
 </Base>
 

@@ -25,7 +25,7 @@ export const profileSchema = z.object({
   location: localized,
   summary: localized,
   skills: z.array(z.string().min(1)).min(1),
-  links: z.object({ linkedin: z.string().url(), github: z.string().url() }),
+  links: z.object({ linkedin: z.url(), github: z.url() }),
   portrait: z.string().optional(),
   languages: z.array(z.object({ name: localized, level: localized })),
   education: z.array(z.object({ institution: z.string().min(1), subject: localized, period: z.string().min(1), note: localized.optional() })),
@@ -45,8 +45,8 @@ export const projectSchema = z.object({
   order: z.number().int(),
   name: z.string().min(1),
   summary: localized,
-  url: z.string().url().optional(),
-  repo: z.string().url().optional(),
+  url: z.url().optional(),
+  repo: z.url().optional(),
   tags: z.array(z.string()),
 });
 

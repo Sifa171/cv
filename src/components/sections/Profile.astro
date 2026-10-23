@@ -50,6 +50,8 @@ const portrait = portraitLoader ? (await portraitLoader()).default : undefined;
   .profile__side h3 { margin: 0 0 1rem; font-weight: 400; }
   .skills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .skill { font-family: var(--font-mono); font-size: 0.8rem; border: 0.5px solid var(--line); border-radius: 999px; padding: 0.25rem 0.75rem; color: var(--text-2); }
+  :global(html.webgl) .skills--cluster { position: relative; display: block; height: 24rem; }
+  :global(html.webgl) .skills--cluster .skill { position: absolute; white-space: nowrap; background: color-mix(in srgb, var(--bg) 70%, transparent); transform: translateY(-50%); }
   .portrait { width: 100%; height: auto; border-radius: 12px; margin-bottom: 1.5rem; filter: grayscale(0.2); }
   @media (max-width: 760px) { .profile { grid-template-columns: minmax(0, 1fr); } }
 </style>

@@ -20,7 +20,8 @@ export function graph(count: number, seed: number, b: Bounds, anchors: Anchor[])
       const t = rng();
       put(out, i, b, p.x + (q.x - p.x) * t + gauss(rng) * 0.015, p.y + (q.y - p.y) * t + gauss(rng) * 0.015, gauss(rng) * d * 0.02);
     } else {
-      put(out, i, b, (rng() - 0.5) * b.width, (rng() - 0.5) * b.height, (rng() - 0.5) * 2 * d);
+      const a = anchors[Math.floor(rng() * anchors.length)]!;
+      put(out, i, b, a.x + gauss(rng) * 0.6, a.y + gauss(rng) * 0.6, gauss(rng) * d * 0.2);
     }
   }
   return out;

@@ -32,7 +32,9 @@ const switchHref = altPath(Astro.url.pathname, lang, other);
     position: fixed; inset: 0 0 auto 0; z-index: 10;
     display: flex; justify-content: space-between; align-items: center; gap: 1rem;
     padding: 1rem var(--gutter);
-    background: linear-gradient(var(--bg), color-mix(in srgb, var(--bg) 0%, transparent));
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
   .logo { display: flex; gap: 0.6rem; align-items: baseline; text-decoration: none; font-size: 0.95rem; }
   .logo__mark { font-family: var(--font-mono); color: var(--cyan); }

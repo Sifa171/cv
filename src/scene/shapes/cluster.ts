@@ -2,21 +2,17 @@ import { gauss, mulberry32 } from '../rng';
 import { cloud } from './cloud';
 import { depth, put, type Anchor, type Bounds } from './types';
 
-/** n Knotenpositionen im inneren Bereich mit Mindestabstand von 12 % der Breite. */
+/** n Knoten auf einem lockeren Ellipsenring um die Mitte (gut beschriftbar). */
 export function clusterNodes(n: number, seed: number, b: Bounds): Anchor[] {
   const rng = mulberry32(seed);
-  const nodes: Anchor[] = [];
-  let minDist = 0.12 * b.width;
-  let attempts = 0;
-  while (nodes.length < n) {
-    const c = { x: (rng() - 0.5) * b.width * 0.8, y: (rng() - 0.5) * b.height * 0.8 };
-    if (nodes.every((o) => Math.hypot(o.x - c.x, o.y - c.y) >= minDist)) nodes.push(c);
-    if (++attempts % 2000 === 0) minDist = Math.max(0.1 * b.width, minDist * 0.95);
-  }
-  return nodes;
+  return Array.from({ length: n }, (_, i) => {
+    const angle = (i / n) * Math.PI * 2 + Math.PI / n / 2 + (rng() - 0.5) * 0.3;
+    const r = 0.92 + rng() * 0.08;
+    return { x: Math.cos(angle) * b.width * 0.42 * r, y: Math.sin(angle) * b.height * 0.42 * r };
+  });
 }
 
-/** Knoten mit Kanten aus Partikeln: 50 % Knoten, 30 % Kanten, 20 % Streuung. */
+/** Knoten mit Kanten aus Partikeln: 50 % Knoten, 30 % Kanten, 20 % Streuung um die Mitte. */
 export function cluster(count: number, seed: number, b: Bounds, nodes: Anchor[], edges: [number, number][]): Float32Array {
   if (nodes.length === 0) return cloud(count, seed, b);
   const out = new Float32Array(count * 3);
@@ -34,7 +30,7 @@ export function cluster(count: number, seed: number, b: Bounds, nodes: Anchor[],
       const t = rng();
       put(out, i, b, p.x + (q.x - p.x) * t + gauss(rng) * 0.02, p.y + (q.y - p.y) * t + gauss(rng) * 0.02, gauss(rng) * d * 0.05);
     } else {
-      put(out, i, b, (rng() - 0.5) * b.width, (rng() - 0.5) * b.height, (rng() - 0.5) * 2 * d);
+      put(out, i, b, gauss(rng) * b.width * 0.12, gauss(rng) * b.height * 0.15, gauss(rng) * d * 0.3);
     }
   }
   return out;
