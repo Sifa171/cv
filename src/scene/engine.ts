@@ -99,6 +99,11 @@ export class ParticleEngine {
     this.geometry.setDrawRange(0, Math.min(count, this.maxCount));
   }
 
+  /** Shader vorab kompilieren, damit der erste Frame keinen langen Task auslöst. */
+  warmup(): void {
+    this.renderer.compile(this.scene, this.camera);
+  }
+
   render(): void {
     this.renderer.render(this.scene, this.camera);
   }

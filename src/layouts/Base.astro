@@ -34,6 +34,7 @@ const alternates = (['de', 'en'] as const).map((l) => ({
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#06070a" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     {withAlternates && alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     {withAlternates && <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />}
     {withAlternates && <link rel="canonical" href={new URL(Astro.url.pathname, site).href} />}

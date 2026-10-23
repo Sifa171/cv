@@ -16,6 +16,9 @@ declare global {
 
 const SEED = 7;
 
+/** Gibt den Hauptthread kurz frei, damit kein langer Task entsteht. */
+const yieldToMain = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+
 function hasWebGL(): boolean {
   try {
     const c = document.createElement('canvas');
@@ -69,9 +72,9 @@ export function mountScene(root: HTMLElement): () => void {
   root.prepend(canvas);
   html.classList.add('webgl');
 
-  const engine = new ParticleEngine(canvas, maxCount);
+  let engine!: ParticleEngine;
+  let disposed = false;
   let governor: GovernorState = { count: maxCount, halvings: 0, lowSince: null };
-  engine.setCount(maxCount);
 
   const sections = [...document.querySelectorAll<HTMLElement>('section[data-scene]')];
   let boxes: SectionBox[] = [];
@@ -123,25 +126,31 @@ export function mountScene(root: HTMLElement): () => void {
     return { data: translate(data, cx, cy), anchored: true };
   }
 
+  /** Zielformen einer Szene, erst bei Bedarf berechnet und bis zum nächsten measure() gespeichert. */
+  function targetsOf(scene: SceneId): Target[] {
+    const cached = targets.get(scene);
+    if (cached) return cached;
+    const vp = viewport();
+    const ctx: ShapeContext = { bounds: vp, seed: SEED, clusterNodes: [], clusterEdges: [], graphAnchors: [] };
+    const fixed = (s: SceneId, extra: Partial<ShapeContext> = {}): Target[] =>
+      SHAPES[s](maxCount, { ...ctx, ...extra }).map((data) => ({ data, anchored: false, spin: s === 'cloud' }));
+    let list: Target[];
+    if (scene === 'cluster') list = [clusterTarget(ctx) ?? fixed('cloud')[0]!];
+    else if (scene === 'graph') list = [graphTarget(ctx) ?? fixed('cloud')[0]!];
+    else if (scene === 'notfound')
+      list = fixed(scene, { mask: textMask('404'), bounds: { width: vp.width * 0.7, height: vp.width * 0.7 * (90 / 240) } });
+    else list = fixed(scene);
+    targets.set(scene, list);
+    return list;
+  }
+
   function measure(): void {
     boxes = sections.map((s) => {
       const r = s.getBoundingClientRect();
       return { scene: s.dataset.scene as SceneId, top: r.top + scrollY, height: r.height };
     });
-    const vp = viewport();
-    const ctx: ShapeContext = { bounds: vp, seed: SEED, clusterNodes: [], clusterEdges: [], graphAnchors: [] };
-    const fixed = (scene: SceneId, extra: Partial<ShapeContext> = {}): Target[] =>
-      SHAPES[scene](maxCount, { ...ctx, ...extra }).map((data) => ({ data, anchored: false, spin: scene === 'cloud' }));
-    const scenes = new Set(boxes.map((b) => b.scene));
-    if (stillScene) scenes.add(stillScene);
     targets = new Map();
-    for (const scene of scenes) {
-      if (scene === 'cluster') targets.set(scene, [clusterTarget(ctx) ?? fixed('cloud')[0]!]);
-      else if (scene === 'graph') targets.set(scene, [graphTarget(ctx) ?? fixed('cloud')[0]!]);
-      else if (scene === 'notfound')
-        targets.set(scene, fixed(scene, { mask: textMask('404'), bounds: { width: vp.width * 0.7, height: vp.width * 0.7 * (90 / 240) } }));
-      else targets.set(scene, fixed(scene));
-    }
+    if (boxes.some((b) => b.scene === 'cluster')) targetsOf('cluster');
     anchorsVersion++;
     if (debug) window.__cvScene = { anchorsVersion, count: governor.count };
     lastKey = '';
@@ -149,7 +158,7 @@ export function mountScene(root: HTMLElement): () => void {
   }
 
   function targetFor(scene: SceneId, local: number): Target {
-    const list = targets.get(scene)!;
+    const list = targetsOf(scene);
     if (list.length === 1) return list[0]!;
     const s = Math.min(1, Math.max(0, (local - 0.5) / 0.3));
     const [a, b] = [list[0]!.data, list[1]!.data];
@@ -242,31 +251,42 @@ export function mountScene(root: HTMLElement): () => void {
       scrollTo(0, r.top + scrollY + r.height / 2 - innerHeight / 2);
     }
   }
-  engine.resize(innerWidth, innerHeight);
-  measure();
-  void document.fonts.ready.then(() => {
+  async function boot(): Promise<void> {
+    await yieldToMain();
+    if (disposed) return;
+    engine = new ParticleEngine(canvas, maxCount);
+    engine.setCount(maxCount);
+    engine.resize(innerWidth, innerHeight);
+    await yieldToMain();
+    if (disposed) return;
     measure();
+    await yieldToMain();
+    if (disposed) return;
+    engine.warmup();
+    await document.fonts.ready;
+    if (disposed) return;
+    measure();
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', onResize);
+    addEventListener('pointermove', onPointer, { passive: true });
     if (stillScene) {
       frame(performance.now());
       html.dataset.sceneReady = '1';
+    } else {
+      document.addEventListener('visibilitychange', onVisibility);
+      raf = requestAnimationFrame(loop);
     }
-  });
-
-  addEventListener('scroll', update, { passive: true });
-  addEventListener('resize', onResize);
-  addEventListener('pointermove', onPointer, { passive: true });
-  if (!stillScene) {
-    document.addEventListener('visibilitychange', onVisibility);
-    raf = requestAnimationFrame(loop);
   }
+  void boot();
 
   return () => {
+    disposed = true;
     cancelAnimationFrame(raf);
     removeEventListener('scroll', update);
     removeEventListener('resize', onResize);
     removeEventListener('pointermove', onPointer);
     document.removeEventListener('visibilitychange', onVisibility);
-    engine.dispose();
+    engine?.dispose();
     canvas.remove();
     html.classList.remove('webgl');
   };

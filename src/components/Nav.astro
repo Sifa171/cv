@@ -14,12 +14,12 @@ const switchHref = altPath(Astro.url.pathname, lang, other);
 ---
 <header class="nav">
   <a class="skip" href="#main">{ui(lang, 'skip')}</a>
-  <a class="logo" href={`/${lang}/`} aria-label={`${profile.name} – ${ui(lang, 'home')}`}>
+  <a class="logo" href={`/${lang}/`}>
     <span class="logo__mark">⟨sd⟩</span><span class="logo__name">sebastian dehn</span>
   </a>
   <nav class="nav__links">
-    <a href={switchHref} hreflang={other} lang={other} data-lang-switch aria-label={ui(lang, 'switchLabel')}>
-      {ui(lang, 'switchShort')}
+    <a href={switchHref} hreflang={other} lang={other} data-lang-switch>
+      <span aria-hidden="true">{ui(lang, 'switchShort')}</span><span class="sr-only">{ui(lang, 'switchLabel')}</span>
     </a>
     <a href={profile.links.linkedin} rel="me noopener">LinkedIn</a>
     <a href={profile.links.github} rel="me noopener">GitHub</a>
