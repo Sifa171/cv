@@ -1,0 +1,39 @@
+---
+import { getEntry } from 'astro:content';
+import { renderHeadline } from '../lib/headline';
+import { t, type Lang } from '../lib/i18n';
+import type { SceneId, SectionId } from '../scene/types';
+
+interface Props {
+  id: SectionId;
+  index: number;
+  scene: SceneId;
+  lang: Lang;
+  heading?: 'h1' | 'h2';
+}
+
+const { id, index, scene, lang, heading = 'h2' } = Astro.props;
+const content = (await getEntry('sections', id))!.data;
+const Heading = heading;
+const number = String(index).padStart(2, '0');
+---
+<section id={id} class={`section section--${id}`} data-scene={scene} data-index={number} data-label={t(content.label, lang)}>
+  <div class="section__inner">
+    <p class="mono-label section__label"><span aria-hidden="true">——</span> {number} · {t(content.label, lang)}</p>
+    <Heading class="section__headline" set:html={renderHeadline(t(content.headline, lang))} />
+    {content.intro && <p class="section__intro">{t(content.intro, lang)}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 7rem var(--gutter) 5rem; }
+  .section__inner { width: 100%; max-width: var(--measure); margin: 0 auto; }
+  .section__label { margin: 0 0 1.25rem; }
+  .section__headline {
+    font-weight: 300; font-size: clamp(2.1rem, 5.2vw, 4.4rem); line-height: 1.06; letter-spacing: -0.02em;
+    margin: 0; max-width: 20ch; overflow-wrap: anywhere;
+  }
+  .section__headline :global(code) { font-size: 0.75em; color: var(--text-2); }
+  .section__intro { color: var(--text-2); max-width: 38rem; margin: 1.5rem 0 0; font-size: 1.05rem; }
+</style>

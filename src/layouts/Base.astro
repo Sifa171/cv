@@ -5,6 +5,9 @@ import '@fontsource/geist-mono/400.css';
 import '@fontsource/instrument-serif/400-italic.css';
 import '../styles/tokens.css';
 import '../styles/base.css';
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+import { altPath } from '../i18n/ui';
 
 interface Props {
   lang: 'de' | 'en';
@@ -13,6 +16,11 @@ interface Props {
 }
 
 const { lang, title, description } = Astro.props;
+const site = Astro.site!;
+const alternates = (['de', 'en'] as const).map((l) => ({
+  hreflang: l,
+  href: new URL(altPath(Astro.url.pathname, lang, l), site).href,
+}));
 ---
 <!doctype html>
 <html lang={lang}>
@@ -22,9 +30,16 @@ const { lang, title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#06070a" />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, site).href} />
     <slot name="head" />
   </head>
   <body>
-    <slot />
+    <Nav lang={lang} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
   </body>
 </html>

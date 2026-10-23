@@ -1,12 +1,31 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
+import DotNav from '../../components/DotNav.astro';
+import Section from '../../components/Section.astro';
+import SectionCounter from '../../components/SectionCounter.astro';
 import Base from '../../layouts/Base.astro';
+import { t, type Lang } from '../../lib/i18n';
+import { SECTION_IDS } from '../../lib/schemas';
+import { SCENE_OF } from '../../scene/types';
 
 export function getStaticPaths() {
   return [{ params: { lang: 'de' } }, { params: { lang: 'en' } }];
 }
 
-const lang = Astro.params.lang as 'de' | 'en';
+const lang = Astro.params.lang as Lang;
+const profile = (await getEntry('profile', 'main'))!.data;
+const sections = await getCollection('sections');
+const labelOf = (id: string) => t(sections.find((s) => s.id === id)!.data.label, lang);
 ---
-<Base lang={lang} title="Sebastian Dehn" description="Sebastian Dehn – CV">
-  <main><h1>Sebastian Dehn</h1></main>
+<Base lang={lang} title={`${profile.name} – ${t(profile.title, lang)}`} description={t(profile.summary, lang)}>
+  {SECTION_IDS.map((id, i) => (
+    <Section id={id} index={i} scene={SCENE_OF[id]} lang={lang} heading={i === 0 ? 'h1' : 'h2'} />
+  ))}
+  <SectionCounter lang={lang} first={labelOf('start')} />
+  <DotNav lang={lang} items={SECTION_IDS.map((id) => ({ id, label: labelOf(id) }))} />
 </Base>
+
+<script>
+  import { initChrome } from '../../scripts/chrome';
+  initChrome();
+</script>

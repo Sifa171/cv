@@ -1,5 +1,5 @@
 - id: start
-  label: { de: Sebastian Dehn · Account Executive · Red Hat, en: Sebastian Dehn · Account Executive · Red Hat }
+  label: { de: Start, en: Start }
   headline: { de: "Jede Lösung beginnt mit einer einzigen *Zeile Code.*", en: "Every solution begins with a single *line of code.*" }
   intro:
     de: Seit 2011 zwischen Code, Architektur und Vertrieb. Heute bringe ich Hybrid Cloud, Automatisierung und KI in deutsche Unternehmen.
