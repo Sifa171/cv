@@ -5,7 +5,9 @@ export function initChrome(): void {
   const labelEl = document.querySelector('[data-counter-label]');
   const dots = [...document.querySelectorAll<HTMLAnchorElement>('.dotnav a')];
 
+  let activeId = '';
   const activate = (section: HTMLElement) => {
+    activeId = section.id;
     if (indexEl) indexEl.textContent = section.dataset.index ?? '';
     if (labelEl) labelEl.textContent = section.dataset.label ?? '';
     for (const dot of dots) {
@@ -24,7 +26,8 @@ export function initChrome(): void {
 
   for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch], .footer a[hreflang]')) {
     link.addEventListener('click', () => {
-      if (location.hash) link.hash = location.hash;
+      if (activeId && activeId !== 'start') link.hash = `#${activeId}`;
+      else if (location.hash) link.hash = location.hash;
     });
   }
 }

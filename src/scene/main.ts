@@ -195,6 +195,16 @@ export function mountScene(root: HTMLElement): () => void {
   };
 
   let resizeTimer = 0;
+  let layoutTimer = 0;
+  const layoutObserver = new ResizeObserver(() => {
+    clearTimeout(layoutTimer);
+    layoutTimer = window.setTimeout(() => {
+      if (!disposed) measure();
+    }, 150);
+  });
+
+  let userScrolled = false;
+  const onUserScroll = () => (userScrolled = true);
   const onResize = () => {
     clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
@@ -266,6 +276,10 @@ export function mountScene(root: HTMLElement): () => void {
     await document.fonts.ready;
     if (disposed) return;
     measure();
+    const target = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    if (target && !userScrolled && !stillScene) target.scrollIntoView({ block: 'start' });
+    const main = document.querySelector('main');
+    if (main) layoutObserver.observe(main);
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', onResize);
     addEventListener('pointermove', onPointer, { passive: true });
@@ -277,11 +291,15 @@ export function mountScene(root: HTMLElement): () => void {
       raf = requestAnimationFrame(loop);
     }
   }
+  for (const type of ['wheel', 'touchstart', 'keydown'] as const) addEventListener(type, onUserScroll, { passive: true, once: true });
   void boot();
 
   return () => {
     disposed = true;
     cancelAnimationFrame(raf);
+    clearTimeout(resizeTimer);
+    clearTimeout(layoutTimer);
+    layoutObserver.disconnect();
     removeEventListener('scroll', update);
     removeEventListener('resize', onResize);
     removeEventListener('pointermove', onPointer);

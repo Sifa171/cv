@@ -22,11 +22,10 @@ vec3 spinY(vec3 p, float a) {
 }
 
 void main() {
-  vec3 from = aFrom + vec3(uFromOffset, 0.0);
+  vec3 from = spinY(aFrom, uSpin * uTime * 0.05) + vec3(uFromOffset, 0.0);
   vec3 to = aTo + vec3(uToOffset, 0.0);
   float t = smoothstep(0.0, 1.0, clamp((uMorph * 1.4) - aRand * 0.4, 0.0, 1.0));
   vec3 pos = mix(from, to, t);
-  pos = spinY(pos, uSpin * uTime * 0.05);
   pos.xy += vec2(sin(uTime * 0.4 + aRand * 40.0), cos(uTime * 0.3 + aRand * 25.0)) * 0.015;
 
   vec2 d = pos.xy - uPointer;

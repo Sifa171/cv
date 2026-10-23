@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test';
 
 for (const lang of ['de', 'en'] as const) {
-  test(`/${lang}/ rendert mit Sprache, Hintergrund und ohne fremde Hosts`, async ({ page }) => {
+  test(`/${lang}/ rendert mit Sprache, Hintergrund und ohne fremde Hosts`, async ({ page, baseURL }) => {
+    const own = new URL(baseURL!).hostname;
     const foreign: string[] = [];
     page.on('request', (req) => {
       const host = new URL(req.url()).hostname;
-      if (host !== 'localhost' && !req.url().startsWith('data:')) foreign.push(req.url());
+      if (host !== own && !req.url().startsWith('data:')) foreign.push(req.url());
     });
     const res = await page.goto(`/${lang}/`);
     expect(res?.status()).toBe(200);

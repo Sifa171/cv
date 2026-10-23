@@ -15,11 +15,12 @@ for (const { path, other } of PAGES) {
   });
 }
 
-test('Impressum enthält Name und Adress-Platzhalter', async ({ page }) => {
-  for (const path of ['/de/impressum/', '/en/imprint/']) {
+test('Impressum enthält Angaben nach § 5 DDG mit Name und Kontakt', async ({ page }) => {
+  for (const [path, contact] of [['/de/impressum/', 'Kontakt'], ['/en/imprint/', 'Contact']]) {
     await page.goto(path);
+    await expect(page.locator('main h2').first()).toContainText('§ 5 DDG');
     await expect(page.locator('main')).toContainText('Sebastian Dehn');
-    await expect(page.locator('main')).toContainText('PLATZHALTER(impressum-anschrift)');
+    await expect(page.locator('main h2').nth(1)).toHaveText(contact!);
   }
 });
 
