@@ -234,6 +234,14 @@ export function mountScene(root: HTMLElement): () => void {
     }
   };
 
+  if (stillScene) {
+    const section = sections.find((s) => s.dataset.scene === stillScene);
+    if (section) {
+      html.style.scrollBehavior = 'auto';
+      const r = section.getBoundingClientRect();
+      scrollTo(0, r.top + scrollY + r.height / 2 - innerHeight / 2);
+    }
+  }
   engine.resize(innerWidth, innerHeight);
   measure();
   void document.fonts.ready.then(() => {

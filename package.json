@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && tsx scripts/build-pdf.ts",
+    "build": "astro build && tsx scripts/render-fallbacks.ts && tsx scripts/build-pdf.ts",
     "preview": "astro preview --port 4321 --ignore-lock",
     "check": "astro check && tsc --noEmit",
     "test": "vitest run",
