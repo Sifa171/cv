@@ -1,0 +1,12 @@
+id: sag-student
+company: SPIE (SAG)
+title: { de: Werkstudent, en: Student Assistant }
+start: "2011-08"
+end: "2012-08"
+location: { de: Ruhrgebiet, en: Ruhr area }
+branch: sag
+summary:
+  de: Werkstudent neben dem Studium der Informationstechnik an der Westfälischen Hochschule.
+  en: Student assistant alongside studying information technology at Westfälische Hochschule.
+diff: []
+tech: []

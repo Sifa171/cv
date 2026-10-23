@@ -1,0 +1,12 @@
+id: redhat-consultant
+company: Red Hat
+title: { de: Consultant, en: Consultant }
+start: "2018-01"
+end: "2019-11"
+branch: redhat
+summary:
+  de: Kundenprojekte mit Red-Hat-Technologie umgesetzt.
+  en: Delivered customer projects built on Red Hat technology.
+# TODO(sebastian): Ort? Welche Technologien und Projektarten? 2–4 Stichpunkte.
+diff: []
+tech: []

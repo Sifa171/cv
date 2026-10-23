@@ -1,0 +1,27 @@
+---
+import { ui } from '../i18n/ui';
+import type { Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  items: { id: string; label: string }[];
+}
+
+const { lang, items } = Astro.props;
+---
+<nav class="dotnav" aria-label={ui(lang, 'sections')}>
+  <ul>
+    {items.map((item, i) => (
+      <li><a href={`#${item.id}`} aria-label={item.label} aria-current={i === 0 ? 'true' : undefined}><span></span></a></li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .dotnav { position: fixed; right: calc(var(--gutter) / 2); top: 50%; transform: translateY(-50%); z-index: 5; }
+  .dotnav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .dotnav a { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; }
+  .dotnav span { width: 4px; height: 4px; border-radius: 50%; background: var(--label); transition: transform 0.2s, background 0.2s; }
+  .dotnav a[aria-current='true'] span { background: var(--text); transform: scale(1.8); }
+  @media (max-width: 640px) { .dotnav { display: none; } }
+</style>

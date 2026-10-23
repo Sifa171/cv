@@ -4,3 +4,7 @@ dist/
 .wrangler/
 .DS_Store
 .env*
+.superpowers/
+test-results/
+playwright-report/
+.lighthouseci/

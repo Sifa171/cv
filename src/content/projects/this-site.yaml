@@ -1,0 +1,8 @@
+id: this-site
+order: 3
+name: sifa-web.com
+summary:
+  de: Diese Seite – Astro, Three.js und ein Partikelsystem, ausgeliefert über Cloudflare Workers.
+  en: This site – Astro, Three.js and a particle system, served by Cloudflare Workers.
+repo: https://github.com/Sifa171/cv
+tags: [Astro, Three.js, Cloudflare]

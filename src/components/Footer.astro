@@ -1,0 +1,23 @@
+---
+import { altPath, legalPath, ui } from '../i18n/ui';
+import type { Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const other: Lang = lang === 'de' ? 'en' : 'de';
+---
+<footer class="footer mono-label">
+  <span>© {new Date().getFullYear()} Sebastian Dehn</span>
+  <a href={altPath(Astro.url.pathname, lang, other)} hreflang={other} lang={other}>{ui(lang, 'switchLabel')}</a>
+  <a href={legalPath(lang, 'legal')}>{ui(lang, 'imprint')}</a>
+  <a href={legalPath(lang, 'privacy')}>{ui(lang, 'privacy')}</a>
+</footer>
+
+<style>
+  .footer { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 2rem var(--gutter) 4.5rem; border-top: 0.5px solid var(--line); }
+  .footer a { text-decoration: none; }
+  .footer a:hover { color: var(--text); }
+</style>

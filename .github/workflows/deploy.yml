@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright test
+      # Mit echtem Worker und Headern (CSP): Szenen- und Rahmen-Tests dürfen keine Konsolenfehler zeigen.
+      - name: E2E gegen wrangler dev
+        run: |
+          npx wrangler dev --port 8787 --ip 127.0.0.1 > wrangler.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf -o /dev/null http://127.0.0.1:8787/de/ && break; sleep 1; done
+          BASE_URL=http://127.0.0.1:8787 npx playwright test scene chrome smoke review-fixes
+          scripts/smoke.sh http://127.0.0.1:8787
+      - run: npx lhci autorun
+      # Bricht ab, solange offene Fragen (TODO(sebastian)) oder Impressum-Platzhalter vorhanden sind.
+      - run: npm run release:check
+      - run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      # Erst nach dem Livegang (Repo-Variable LIVE=true), vorher hängt keine Domain am Worker.
+      - if: vars.LIVE == 'true'
+        run: scripts/smoke.sh https://sifa-web.com --prod

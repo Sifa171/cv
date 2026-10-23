@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, getEntry } from 'astro:content';
+import { ui } from '../../i18n/ui';
+import { t, type Lang } from '../../lib/i18n';
+import { computeStats } from '../../lib/stats';
+import { SCENE_OF } from '../../scene/types';
+import Section from '../Section.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const profile = (await getEntry('profile', 'main'))!.data;
+const roles = (await getCollection('roles')).map((r) => r.data);
+const stats = computeStats(roles, new Date());
+const portraits = import.meta.glob<{ default: ImageMetadata }>('../../assets/*.{jpg,jpeg,png,webp}');
+const portraitLoader = profile.portrait ? portraits[`../../assets/${profile.portrait}`] : undefined;
+const portrait = portraitLoader ? (await portraitLoader()).default : undefined;
+---
+<Section id="profile" index={1} scene={SCENE_OF.profile} lang={lang}>
+  <div class="profile">
+    <div>
+      <p class="profile__summary">{t(profile.summary, lang)}</p>
+      <dl class="stats" aria-label={ui(lang, 'stats')}>
+        <div><dt>uptime:</dt><dd>{stats.uptimeYears}y</dd></div>
+        <div><dt>red_hat:</dt><dd>{stats.redhatYears}y</dd></div>
+        <div><dt>roles:</dt><dd>{stats.roleCount}</dd></div>
+        <div><dt>location:</dt><dd>{t(profile.location, lang)}</dd></div>
+      </dl>
+    </div>
+    <div class="profile__side">
+      {portrait && <Image class="portrait" src={portrait} alt={profile.name} width={480} format="webp" />}
+      <h3 class="mono-label">{ui(lang, 'skills')}</h3>
+      <ul class="skills">
+        {profile.skills.map((skill) => <li class="skill" data-skill={skill}>{skill}</li>)}
+      </ul>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .profile { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); margin-top: 2.5rem; }
+  .profile__summary { color: var(--text-2); font-size: 1.1rem; margin: 0; max-width: 40rem; }
+  .stats { font-family: var(--font-mono); font-size: 0.85rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.75rem; margin: 2rem 0 0; }
+  .stats div { border-top: 0.5px solid var(--line); padding-top: 0.6rem; }
+  .stats dt { color: var(--label); }
+  .stats dd { margin: 0; color: var(--text); font-size: 1.15rem; }
+  .profile__side h3 { margin: 0 0 1rem; font-weight: 400; }
+  .skills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill { font-family: var(--font-mono); font-size: 0.8rem; border: 0.5px solid var(--line); border-radius: 999px; padding: 0.25rem 0.75rem; color: var(--text-2); }
+  :global(html.webgl) .skills--cluster { position: relative; display: block; height: 24rem; }
+  :global(html.webgl) .skills--cluster .skill { position: absolute; white-space: nowrap; background: color-mix(in srgb, var(--bg) 70%, transparent); transform: translateY(-50%); }
+  .portrait { width: 100%; height: auto; border-radius: 12px; margin-bottom: 1.5rem; filter: grayscale(0.2); }
+  @media (max-width: 760px) { .profile { grid-template-columns: minmax(0, 1fr); } }
+</style>

@@ -1,0 +1,34 @@
+main:
+  name: Sebastian Dehn
+  title:
+    de: Account Executive – Commercial Germany bei Red Hat
+    en: Account Executive – Commercial Germany at Red Hat
+  location:
+    de: Dortmund
+    en: Dortmund, Germany
+  # TODO(sebastian): Kurzprofil prüfen und in deinen Worten anpassen.
+  summary:
+    de: >-
+      Ich habe als Softwareentwickler angefangen, war Consultant und Solution Architect und bringe heute
+      bei Red Hat Open-Source-Lösungen für Hybrid Cloud, Automatisierung und KI zu Unternehmen in Deutschland.
+      Weil ich die Technik selbst gebaut und beim Kunden umgesetzt habe, spreche ich mit IT-Teams und
+      Entscheidern dieselbe Sprache.
+    en: >-
+      I started out as a software developer, worked as a consultant and solution architect, and today I bring
+      Red Hat's open source solutions for hybrid cloud, automation and AI to companies in Germany.
+      Having built and delivered the technology myself, I speak the same language as IT teams and
+      decision makers.
+  skills: [OpenShift, Kubernetes, Ansible, Red Hat Enterprise Linux, Docker, Java, Shell, DevOps]
+  links:
+    linkedin: https://www.linkedin.com/in/sdehn/
+    github: https://github.com/Sifa171
+  languages:
+    - name: { de: Deutsch, en: German }
+      level: { de: Muttersprache, en: Native }
+    - name: { de: Englisch, en: English }
+      level: { de: Verhandlungssicher, en: Professional working proficiency }
+  education:
+    - institution: Westfälische Hochschule
+      subject: { de: Informationstechnik, en: Information technology }
+      period: 2011 – 2012
+      note: { de: ohne Abschluss, en: no degree }

@@ -1,0 +1,9 @@
+id: katria
+order: 1
+name: Katria
+# TODO(sebastian): Beschreibung von Katria prüfen.
+summary:
+  de: Eigene Trainings-App für Triathlon – iOS-App, Web und Backend, selbst entwickelt und betrieben.
+  en: My own triathlon training app – iOS app, web and backend, built and run by myself.
+url: https://katria.app
+tags: [iOS, Backend, Triathlon]

@@ -1,0 +1,68 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { toCommits } from '../../lib/career';
+import { t, type Lang } from '../../lib/i18n';
+import { formatPeriod } from '../../lib/period';
+import '../../styles/print.css';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'de' } }, { params: { lang: 'en' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const profile = (await getEntry('profile', 'main'))!.data;
+const roles = toCommits((await getCollection('roles')).map((r) => r.data)).map((c) => c.role);
+const L = (de: string, en: string) => (lang === 'de' ? de : en);
+const host = (url: string) => url.replace(/^https:\/\/(www\.)?/, '').replace(/\/$/, '');
+---
+<Base lang={lang} title={`${profile.name} – CV`} description={t(profile.summary, lang)} bare bodyClass="cv">
+  <header>
+    <h1>{profile.name}</h1>
+    <p class="cv-title">{t(profile.title, lang)}</p>
+    <p class="cv-contact">
+      <span>{t(profile.location, lang)}</span>
+      <a href="https://sifa-web.com">sifa-web.com</a>
+      <a href={profile.links.linkedin}>{host(profile.links.linkedin)}</a>
+      <a href={profile.links.github}>{host(profile.links.github)}</a>
+    </p>
+  </header>
+
+  <h2>{L('Profil', 'Profile')}</h2>
+  <p>{t(profile.summary, lang)}</p>
+
+  <h2>{L('Laufbahn', 'Experience')}</h2>
+  {roles.map((role) => (
+    <article class="cv-role">
+      <div class="cv-role__years">{formatPeriod(role.start, role.end, lang, { months: true })}</div>
+      <div>
+        <h3>{t(role.title, lang)}</h3>
+        <p class="cv-role__meta">{role.company}{role.location && ` · ${t(role.location, lang)}`}</p>
+        <p>{t(role.summary, lang)}</p>
+        {role.diff.length > 0 && (
+          <ul>{role.diff.map((line) => <li>{line.type === 'add' ? '+' : '−'} {t(line, lang)}</li>)}</ul>
+        )}
+        {role.tech.length > 0 && <p class="tech">{role.tech.join(' · ')}</p>}
+      </div>
+    </article>
+  ))}
+
+  <div class="cv-cols">
+    <section>
+      <h2>Skills</h2>
+      <p>{profile.skills.join(' · ')}</p>
+    </section>
+    <section>
+      <h2>{L('Sprachen', 'Languages')}</h2>
+      <ul>{profile.languages.map((l) => <li>{t(l.name, lang)} – {t(l.level, lang)}</li>)}</ul>
+    </section>
+    <section>
+      <h2>{L('Ausbildung', 'Education')}</h2>
+      <ul>
+        {profile.education.map((e) => (
+          <li>{e.institution}, {t(e.subject, lang)}, {e.period}{e.note && ` (${t(e.note, lang)})`}</li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Base>
