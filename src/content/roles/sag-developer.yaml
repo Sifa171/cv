@@ -1,0 +1,13 @@
+id: sag-developer
+company: SPIE (SAG)
+title: { de: Softwareentwickler, en: Software Developer }
+start: "2015-01"
+end: "2015-10"
+location: { de: Dortmund, en: Dortmund }
+branch: sag
+summary:
+  de: Softwareentwicklung im Anschluss an die Ausbildung.
+  en: Software development following my apprenticeship.
+# TODO(sebastian): Was hast du entwickelt (Sprache, Domäne)? 1–3 Stichpunkte.
+diff: []
+tech: []

@@ -1,0 +1,13 @@
+id: redhat-sa-commercial
+company: Red Hat
+title: { de: Solution Architect – Commercial Germany, en: Solution Architect – Commercial Germany }
+start: "2023-01"
+end: "2023-09"
+location: { de: "München, remote", en: "Munich, remote" }
+branch: redhat
+summary:
+  de: Technischer Partner des Vertriebsteams Commercial Germany – Lösungen und Architekturen für Kunden entworfen.
+  en: Technical partner to the Commercial Germany sales team, designing solutions and architectures for customers.
+# TODO(sebastian): 2–4 Stichpunkte, was du hier gebaut, erreicht oder verantwortet hast.
+diff: []
+tech: []

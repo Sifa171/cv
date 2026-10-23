@@ -1,0 +1,13 @@
+id: redhat-ae
+company: Red Hat
+title: { de: Account Executive – Commercial Germany, en: Account Executive – Commercial Germany }
+start: "2023-10"
+end: null
+location: { de: "Deutschland, remote", en: "Germany, remote" }
+branch: redhat
+summary:
+  de: Vertrieb des Red-Hat-Portfolios für Hybrid Cloud, Automatisierung und KI an Unternehmen im Commercial-Segment in Deutschland.
+  en: Selling Red Hat's hybrid cloud, automation and AI portfolio to commercial-segment companies in Germany.
+# TODO(sebastian): Achievements – eigene Sitzung (nur öffentlich nennbare Ergebnisse).
+diff: []
+tech: [OpenShift, Ansible, RHEL, Red Hat AI]

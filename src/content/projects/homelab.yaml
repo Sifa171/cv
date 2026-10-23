@@ -1,0 +1,8 @@
+id: homelab
+order: 2
+name: Homelab
+# TODO(sebastian): Ist es ok, das Homelab so öffentlich zu beschreiben?
+summary:
+  de: Homeserver mit Proxmox und eigenen Diensten wie Passwortmanager, Dokumentenarchiv und DNS – automatisiert mit Ansible, verschlüsselt gesichert.
+  en: A Proxmox home server running my own services such as a password manager, document archive and DNS – automated with Ansible, with encrypted backups.
+tags: [Proxmox, Ansible, Self-hosting]

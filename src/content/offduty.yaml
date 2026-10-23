@@ -1,0 +1,13 @@
+# TODO(sebastian): Triathlon – welche Distanzen, Rennen oder Ziele möchtest du nennen?
+- id: triathlon
+  label: Swim · Bike · Run
+  title: { de: Triathlon, en: Triathlon }
+  text:
+    de: Schwimmen, Radfahren, Laufen – und eine eigene App, um das Training zu planen.
+    en: Swimming, cycling, running – and my own app to plan the training.
+- id: stage
+  label: MGM Grand · 2026
+  title: { de: Red Hat One 2026, en: Red Hat One 2026 }
+  text:
+    de: In Las Vegas stand ich mit einem Song auf der Bühne der MGM Grand Garden Arena – vor über 7.000 Kolleginnen, Kollegen, Kunden und Partnern.
+    en: In Las Vegas I performed a song on the stage of the MGM Grand Garden Arena – in front of more than 7,000 colleagues, customers and partners.

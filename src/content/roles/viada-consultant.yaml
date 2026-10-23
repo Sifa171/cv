@@ -1,0 +1,13 @@
+id: viada-consultant
+company: Viada GmbH & Co. KG
+title: { de: Consultant, en: Consultant }
+start: "2015-10"
+end: "2017-12"
+location: { de: Ruhrgebiet, en: Ruhr area }
+branch: viada
+summary:
+  de: Consultant bei einem IT-Dienstleister für Red Hat im Ruhrgebiet.
+  en: Consultant at a Red Hat-focused IT services company in the Ruhr area.
+# TODO(sebastian): Schwerpunkte und 2–4 Stichpunkte (z. B. Linux, Container, Automatisierung?).
+diff: []
+tech: []
