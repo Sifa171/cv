@@ -10,16 +10,17 @@ interface Props {
   scene: SceneId;
   lang: Lang;
   heading?: 'h1' | 'h2';
+  kicker?: string;
 }
 
-const { id, index, scene, lang, heading = 'h2' } = Astro.props;
+const { id, index, scene, lang, heading = 'h2', kicker } = Astro.props;
 const content = (await getEntry('sections', id))!.data;
 const Heading = heading;
 const number = String(index).padStart(2, '0');
 ---
 <section id={id} class={`section section--${id}`} data-scene={scene} data-index={number} data-label={t(content.label, lang)}>
   <div class="section__inner">
-    <p class="mono-label section__label"><span aria-hidden="true">——</span> {number} · {t(content.label, lang)}</p>
+    <p class="mono-label section__label"><span aria-hidden="true">——</span> {kicker ?? `${number} · ${t(content.label, lang)}`}</p>
     <Heading class="section__headline" set:html={renderHeadline(t(content.headline, lang))} />
     {content.intro && <p class="section__intro">{t(content.intro, lang)}</p>}
     <slot />
@@ -35,5 +36,8 @@ const number = String(index).padStart(2, '0');
     margin: 0; max-width: 20ch; overflow-wrap: anywhere;
   }
   .section__headline :global(code) { font-size: 0.75em; color: var(--text-2); }
+  .section--start { text-align: center; }
+  .section--start .section__label, .section--start .section__headline, .section--start .section__intro { margin-left: auto; margin-right: auto; }
+  .section--start .section__label span { display: none; }
   .section__intro { color: var(--text-2); max-width: 38rem; margin: 1.5rem 0 0; font-size: 1.05rem; }
 </style>

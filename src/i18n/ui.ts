@@ -10,6 +10,11 @@ const STRINGS = {
   sections: { de: 'Abschnitte', en: 'Sections' },
   ready: { de: '$ ready_', en: '$ ready_' },
   skip: { de: 'Zum Inhalt springen', en: 'Skip to content' },
+  scrollHint: { de: 'Scrollen · dem Signal folgen', en: 'Scroll · follow the signal' },
+  visit: { de: 'Ansehen ↗', en: 'Visit ↗' },
+  source: { de: 'Code auf GitHub ↗', en: 'Source on GitHub ↗' },
+  skills: { de: 'Skills', en: 'Skills' },
+  stats: { de: 'Kennzahlen', en: 'Key figures' },
 } as const;
 
 export type UiKey = keyof typeof STRINGS;

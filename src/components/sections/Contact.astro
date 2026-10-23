@@ -1,0 +1,27 @@
+---
+import { getEntry } from 'astro:content';
+import { ui } from '../../i18n/ui';
+import type { Lang } from '../../lib/i18n';
+import { SCENE_OF } from '../../scene/types';
+import Section from '../Section.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const profile = (await getEntry('profile', 'main'))!.data;
+---
+<Section id="contact" index={5} scene={SCENE_OF.contact} lang={lang}>
+  <ul class="contact">
+    <li><a href={profile.links.linkedin} rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a></li>
+    <li><a href={profile.links.github} rel="me noopener">GitHub <span aria-hidden="true">↗</span></a></li>
+    <li><a href={`/cv/sebastian-dehn-cv-${lang}.pdf`}>{ui(lang, 'cv')}</a></li>
+  </ul>
+</Section>
+
+<style>
+  .contact { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; gap: 0.25rem; }
+  .contact a { font-size: clamp(1.5rem, 3.5vw, 2.5rem); font-weight: 300; text-decoration: none; color: var(--text-2); }
+  .contact a:hover { color: var(--text); }
+</style>

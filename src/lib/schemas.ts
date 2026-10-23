@@ -50,6 +50,7 @@ export const projectSchema = z.object({
 
 export const offdutySchema = z.object({
   id: z.string().min(1),
+  order: z.number().int(),
   label: z.string().min(1),
   title: localized,
   text: localized,

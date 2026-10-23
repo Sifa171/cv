@@ -1,0 +1,32 @@
+---
+import { getEntry } from 'astro:content';
+import { ui } from '../../i18n/ui';
+import type { Lang } from '../../lib/i18n';
+import { SCENE_OF } from '../../scene/types';
+import Section from '../Section.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const profile = (await getEntry('profile', 'main'))!.data;
+const kicker = `${profile.name} · ${lang === 'de' ? 'Account Executive · Red Hat' : 'Account Executive · Red Hat'}`;
+---
+<Section id="start" index={0} scene={SCENE_OF.start} lang={lang} heading="h1" kicker={kicker}>
+  <div class="hero__actions">
+    <a class="pill" href={`/cv/sebastian-dehn-cv-${lang}.pdf`}>{ui(lang, 'cv')}</a>
+    <a class="link" href={profile.links.linkedin} rel="me noopener">LinkedIn ↗</a>
+    <a class="link" href={profile.links.github} rel="me noopener">GitHub ↗</a>
+  </div>
+  <p class="hero__hint mono-label" aria-hidden="true">{ui(lang, 'scrollHint')}</p>
+</Section>
+
+<style>
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 1.25rem; justify-content: center; align-items: center; margin-top: 2.25rem; font-size: 0.9rem; }
+  .pill { border: 0.5px solid #3a3e4a; border-radius: 999px; padding: 0.45rem 1.2rem; text-decoration: none; }
+  .pill:hover { border-color: var(--cyan); }
+  .link { color: var(--text-2); text-decoration: none; }
+  .link:hover { color: var(--text); }
+  .hero__hint { margin-top: 4rem; font-size: 0.65rem; }
+</style>
