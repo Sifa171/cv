@@ -1,4 +1,7 @@
 <script>
+  import { initChrome } from '../scripts/chrome';
+
+  initChrome();
   const start = () => import('../scene/main').then((m) => m.mountScene(document.body));
   if ('requestIdleCallback' in window) requestIdleCallback(() => void start(), { timeout: 1500 });
   else setTimeout(() => void start(), 200);
