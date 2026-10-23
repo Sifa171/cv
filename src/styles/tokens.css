@@ -1,0 +1,16 @@
+:root {
+  --bg: #06070a;
+  --text: #ecedf2;
+  --text-2: #a4a8b5;
+  --label: #7d8190;
+  --line: #2a2d36;
+  --cyan: #4fe3c1;
+  --indigo: #7b8cff;
+  --violet: #c77dff;
+  --signal: linear-gradient(90deg, var(--cyan), var(--indigo) 50%, var(--violet));
+  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --measure: 72rem;
+}

@@ -1,0 +1,30 @@
+---
+import '@fontsource/geist/300.css';
+import '@fontsource/geist/400.css';
+import '@fontsource/geist-mono/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+
+interface Props {
+  lang: 'de' | 'en';
+  title: string;
+  description: string;
+}
+
+const { lang, title, description } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#06070a" />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
