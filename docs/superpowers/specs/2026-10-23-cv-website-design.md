@@ -119,7 +119,7 @@ Alle Schriften sind selbst gehostet (keine Anfragen an Dritte).
 - **Szenen:**
   1. `cloud` – lose Wolke, langsam rotierend
   2. `cluster` – Knoten (Skills) mit Kanten aus Partikeln; Knotennamen als HTML-Labels darüber
-  3. `graph` – Commit-Graph; Knoten liegen exakt hinter den HTML-Commit-Einträgen (Positionen aus dem DOM, bei Größenänderung neu berechnet); wächst beim Scrollen nach oben
+  3. `graph` – Commit-Graph; Knoten liegen exakt hinter den HTML-Commit-Einträgen (Positionen aus dem DOM, bei Größen- und Layoutänderung neu berechnet); erscheint per Überblendung als Ganzes (Wachstum beim Scrollen am 2026-10-25 vom Nutzer gestrichen)
   4. `signal` – horizontale Linie, die von Datenstrom über Puls zu Audiospektrum wechselt (Unterzustände per Scrollfortschritt)
   5. `point` – alle Partikel laufen in einem Punkt zusammen
   6. `notfound` – nur auf der 404-Seite: Partikel bilden `404`
