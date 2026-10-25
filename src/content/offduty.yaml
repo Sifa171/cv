@@ -1,11 +1,10 @@
-# TODO(sebastian): Triathlon – welche Distanzen, Rennen oder Ziele möchtest du nennen?
 - id: triathlon
   order: 1
-  label: Swim · Bike · Run
+  label: Swim · Bike · Run · 70.3
   title: { de: Triathlon, en: Triathlon }
   text:
-    de: Schwimmen, Radfahren, Laufen – und eine eigene App, um das Training zu planen.
-    en: Swimming, cycling, running – and my own app to plan the training.
+    de: Mitteldistanz (70.3). Nächstes Ziel ist der Ironman 70.3 Duisburg 2027 – das Training plane ich mit meiner eigenen App.
+    en: Middle distance (70.3). Next goal is Ironman 70.3 Duisburg 2027 – training planned with my own app.
 - id: stage
   order: 2
   label: MGM Grand · 2026
