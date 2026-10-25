@@ -3,10 +3,13 @@ company: Red Hat
 title: { de: Solution Architect Partner Enablement, en: Solution Architect Partner Enablement }
 start: "2019-12"
 end: "2022-12"
+location: { de: Remote, en: Remote }
 branch: redhat
 summary:
-  de: Partner technisch befähigt, Red-Hat-Lösungen zu verkaufen und umzusetzen.
-  en: Enabled partners technically to sell and deliver Red Hat solutions.
-# TODO(sebastian): Ort? Und 2–4 Stichpunkte (z. B. Formate, Partner, Themen – nur Öffentliches).
-diff: []
-tech: []
+  de: Solution Provider und Distributoren technisch befähigt, Red-Hat-Lösungen zu verkaufen und umzusetzen.
+  en: Enabled solution providers and distributors technically to sell and deliver Red Hat solutions.
+diff:
+  - { type: add, de: "Workshops, Bootcamps, Demos und Partner-Events", en: "Workshops, bootcamps, demos and partner events" }
+  - { type: add, de: Presales-Unterstützung für Partner in Kundenprojekten, en: Presales support for partners in customer opportunities }
+  - { type: add, de: "Themen: OpenShift, Ansible, RHEL und Cloud-Services (ROSA, ARO)", en: "Topics: OpenShift, Ansible, RHEL and cloud services (ROSA, ARO)" }
+tech: [OpenShift, Ansible, RHEL, ROSA, ARO]
