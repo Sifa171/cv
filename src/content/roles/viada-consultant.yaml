@@ -6,8 +6,10 @@ end: "2017-12"
 location: { de: Ruhrgebiet, en: Ruhr area }
 branch: viada
 summary:
-  de: Consultant bei einem IT-Dienstleister für Red Hat im Ruhrgebiet.
-  en: Consultant at a Red Hat-focused IT services company in the Ruhr area.
-# TODO(sebastian): Schwerpunkte und 2–4 Stichpunkte (z. B. Linux, Container, Automatisierung?).
-diff: []
-tech: []
+  de: Consultant bei einem Red-Hat-Partner im Ruhrgebiet, Schwerpunkt Container-Plattformen mit OpenShift.
+  en: Consultant at a Red Hat partner in the Ruhr area, focused on container platforms with OpenShift.
+diff:
+  - { type: add, de: Aufbau von OpenShift-Container-Plattformen (3.x) bei Kunden, en: Built OpenShift container platforms (3.x) for customers }
+  - { type: add, de: Einführung von OpenShift bei einem großen Betreiber kritischer Verkehrsinfrastruktur, en: Introduced OpenShift at a major operator of critical transport infrastructure }
+  - { type: add, de: Linux- und Automatisierungsprojekte mit RHEL und Ansible, en: Linux and automation projects with RHEL and Ansible }
+tech: [OpenShift, Docker, RHEL, Ansible, Satellite, JBoss]
