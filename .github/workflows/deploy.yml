@@ -23,6 +23,8 @@ jobs:
       - run: npm run check
       - run: npm test
       - run: npm run build
+        env:
+          IMPRESSUM_ADDRESS: ${{ secrets.IMPRESSUM_ADDRESS }}
       - run: npx playwright test
       # Mit echtem Worker und Headern (CSP): Szenen- und Rahmen-Tests dürfen keine Konsolenfehler zeigen.
       - name: E2E gegen wrangler dev
