@@ -3,10 +3,13 @@ company: Red Hat
 title: { de: Consultant, en: Consultant }
 start: "2018-01"
 end: "2019-11"
+location: { de: München, en: Munich }
 branch: redhat
 summary:
-  de: Kundenprojekte mit Red-Hat-Technologie umgesetzt.
-  en: Delivered customer projects built on Red Hat technology.
-# TODO(sebastian): Ort? Welche Technologien und Projektarten? 2–4 Stichpunkte.
-diff: []
-tech: []
+  de: Consultant bei Red Hat Consulting – OpenShift-Projekte direkt beim Kunden.
+  en: Consultant with Red Hat Consulting – OpenShift projects on site with customers.
+diff:
+  - { type: add, de: Aufbau von OpenShift-Plattformen bei Kunden, en: Built OpenShift platforms for customers }
+  - { type: add, de: Migration von Anwendungen und Plattformen auf OpenShift 3.11 und 4, en: Migrated applications and platforms to OpenShift 3.11 and 4 }
+  - { type: add, de: Workshops und Enablement für Kundenteams, en: Workshops and enablement for customer teams }
+tech: [OpenShift, Kubernetes]
