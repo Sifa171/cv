@@ -8,5 +8,6 @@ branch: sag
 summary:
   de: Werkstudent neben dem Studium der Informationstechnik an der Westfälischen Hochschule.
   en: Student assistant alongside studying information technology at Westfälische Hochschule.
-diff: []
-tech: []
+diff:
+  - { type: add, de: Mitentwicklung an einem Asset-Management-System für den Energiesektor, en: Contributed to an asset management system for the energy sector }
+tech: [Java]

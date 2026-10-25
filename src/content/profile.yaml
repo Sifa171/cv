@@ -28,6 +28,9 @@ main:
     - name: { de: Englisch, en: English }
       level: { de: Verhandlungssicher, en: Professional working proficiency }
   education:
+    - institution: SAG / IHK
+      subject: { de: Fachinformatiker für Anwendungsentwicklung, en: IT specialist for application development }
+      period: 2012 – 2014
     - institution: Westfälische Hochschule
       subject: { de: Informationstechnik, en: Information technology }
       period: 2011 – 2012

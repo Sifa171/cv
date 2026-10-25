@@ -1,8 +1,7 @@
 id: homelab
 order: 2
 name: Homelab
-# TODO(sebastian): Ist es ok, das Homelab so öffentlich zu beschreiben?
 summary:
-  de: Homeserver mit Proxmox und selbst betriebenen Diensten – automatisiert mit Ansible, verschlüsselt gesichert.
-  en: A Proxmox home server running my own self-hosted services – automated with Ansible, with encrypted backups.
-tags: [Proxmox, Ansible, Self-hosting]
+  de: Homeserver mit Proxmox und eigenen VMs für Passwortmanager (Vaultwarden), Dokumentenarchiv (Paperless-ngx) und DNS (AdGuard Home) – automatisiert mit Ansible, verschlüsselte Backups in die Cloud und zu einem Freund.
+  en: A Proxmox home server with dedicated VMs for a password manager (Vaultwarden), document archive (Paperless-ngx) and DNS (AdGuard Home) – automated with Ansible, with encrypted backups to the cloud and to a friend's server.
+tags: [Proxmox, Ansible, restic, Self-hosting]
