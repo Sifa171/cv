@@ -1,0 +1,50 @@
+---
+import '@fontsource/geist/300.css';
+import '@fontsource/geist/400.css';
+import '@fontsource/geist-mono/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/fallback.css';
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+import { altPath } from '../i18n/ui';
+
+interface Props {
+  lang: 'de' | 'en';
+  title: string;
+  description: string;
+  bare?: boolean;
+  bodyClass?: string;
+  alternates?: boolean;
+}
+
+const { lang, title, description, bare = false, bodyClass, alternates: withAlternates = true } = Astro.props;
+const site = Astro.site!;
+const alternates = (['de', 'en'] as const).map((l) => ({
+  hreflang: l,
+  href: new URL(altPath(Astro.url.pathname, lang, l), site).href,
+}));
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#06070a" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {withAlternates && alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    {withAlternates && <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />}
+    {withAlternates && <link rel="canonical" href={new URL(Astro.url.pathname, site).href} />}
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    {!bare && <Nav lang={lang} />}
+    <main id="main">
+      <slot />
+    </main>
+    {!bare && <Footer lang={lang} />}
+  </body>
+</html>

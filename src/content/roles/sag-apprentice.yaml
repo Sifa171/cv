@@ -1,0 +1,13 @@
+id: sag-apprentice
+company: SPIE (SAG)
+title: { de: Auszubildender Softwareentwickler, en: Apprentice Software Developer }
+start: "2012-08"
+end: "2015-01"
+branch: sag
+summary:
+  de: Ausbildung zum Fachinformatiker für Anwendungsentwicklung (IHK).
+  en: Apprenticeship as an IT specialist for application development (German IHK qualification).
+diff:
+  - { type: add, de: Backend-Entwicklung für das Asset-Management-System, en: Backend development for the asset management system }
+  - { type: add, de: "Abschluss Fachinformatiker für Anwendungsentwicklung (IHK), 2014", en: "Qualified as IT specialist for application development (IHK), 2014" }
+tech: [Java]

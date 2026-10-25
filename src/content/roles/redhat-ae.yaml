@@ -1,0 +1,19 @@
+id: redhat-ae
+company: Red Hat
+title: { de: Account Executive – Commercial Germany, en: Account Executive – Commercial Germany }
+start: "2023-10"
+end: null
+location: { de: "Deutschland, remote", en: "Germany, remote" }
+branch: redhat
+commitType: merge
+summary:
+  de: Wechsel aus der Technik in den Vertrieb – das Red-Hat-Portfolio für Hybrid Cloud, Automatisierung und KI für Unternehmen im Commercial-Segment in Deutschland.
+  en: Moved from engineering into sales – Red Hat's hybrid cloud, automation and AI portfolio for commercial-segment companies in Germany.
+diff:
+  - { type: add, de: Quote im FY25 mit 126 % übertroffen, en: Exceeded quota in FY25 at 126% }
+  - { type: add, de: ROSSMANN für Azure Red Hat OpenShift gewonnen (öffentliche Referenz), en: Won ROSSMANN for Azure Red Hat OpenShift (public reference) }
+  - { type: add, de: "Mehrere Neukunden für OpenShift, Ansible und OpenShift AI gewonnen", en: "Won several new customers for OpenShift, Ansible and OpenShift AI" }
+  - { type: add, de: Erste OpenShift-AI-Projekte bei Commercial-Kunden angestoßen, en: Kicked off the first OpenShift AI projects with commercial customers }
+  - { type: add, de: "Gemeinsame Deals mit AWS, Google und Microsoft", en: "Joint deals with AWS, Google and Microsoft" }
+  - { type: add, de: Speaker bei der OMR Masterclass 2025 zu Open-Source-KI, en: Speaker at the OMR Masterclass 2025 on open source AI }
+tech: [OpenShift, Ansible, OpenShift AI, ARO, ROSA]

@@ -1,0 +1,24 @@
+/* Standbilder der Partikelszenen, wenn kein WebGL läuft oder Bewegung reduziert ist. */
+html.no-webgl section[data-scene] {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+html.no-webgl section[data-scene='cloud'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/cloud.webp'); }
+html.no-webgl section[data-scene='cluster'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/cluster.webp'); }
+html.no-webgl section[data-scene='graph'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/graph.webp'); }
+html.no-webgl section[data-scene='stream'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/stream.webp'); }
+html.no-webgl section[data-scene='pulse'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/pulse.webp'); }
+html.no-webgl section[data-scene='point'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/point.webp'); }
+html.no-webgl section[data-scene='notfound'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/notfound.webp'); }
+
+@media (prefers-reduced-motion: reduce) {
+  section[data-scene] { background-position: center; background-size: cover; background-repeat: no-repeat; }
+  section[data-scene='cloud'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/cloud.webp'); }
+  section[data-scene='cluster'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/cluster.webp'); }
+  section[data-scene='graph'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/graph.webp'); }
+  section[data-scene='stream'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/stream.webp'); }
+  section[data-scene='pulse'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/pulse.webp'); }
+  section[data-scene='point'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/point.webp'); }
+  section[data-scene='notfound'] { background-image: linear-gradient(rgb(6 7 10 / 0.35), rgb(6 7 10 / 0.35)), url('/fallback/notfound.webp'); }
+}

@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import { t, type Lang } from '../../lib/i18n';
+import { SCENE_OF } from '../../scene/types';
+import Section from '../Section.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const items = (await getCollection('offduty')).map((e) => e.data).sort((a, b) => a.order - b.order);
+---
+<Section id="offduty" index={4} scene={SCENE_OF.offduty} lang={lang}>
+  <div class="offduty">
+    {items.map((item) => (
+      <article class="offduty__item" data-offduty={item.id}>
+        <p class="mono-label">{item.label}</p>
+        <h3>{t(item.title, lang)}</h3>
+        <p>{t(item.text, lang)}</p>
+      </article>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .offduty { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 2rem; margin-top: 3rem; border-top: 0.5px solid var(--line); padding-top: 1.5rem; }
+  .offduty__item h3 { font-weight: 300; font-size: 1.6rem; margin: 0.25rem 0 0.5rem; }
+  .offduty__item p:last-child { color: var(--text-2); margin: 0; }
+  .offduty__item .mono-label { margin: 0; }
+</style>

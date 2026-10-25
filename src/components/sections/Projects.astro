@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import { ui } from '../../i18n/ui';
+import { t, type Lang } from '../../lib/i18n';
+import { SCENE_OF } from '../../scene/types';
+import Section from '../Section.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const projects = (await getCollection('projects')).map((p) => p.data).sort((a, b) => a.order - b.order);
+---
+<Section id="projects" index={3} scene={SCENE_OF.projects} lang={lang}>
+  <div class="projects">
+    {projects.map((p, i) => (
+      <article class="project" data-project={p.id}>
+        <p class="mono-label">{String(i + 1).padStart(2, '0')}</p>
+        <h3>{p.name}</h3>
+        <p class="project__summary">{t(p.summary, lang)}</p>
+        <p class="project__tags mono-label">{p.tags.join(' · ')}</p>
+        {(p.url || p.repo) && (
+          <p class="project__links">
+            {p.url && <a href={p.url} rel="noopener">{ui(lang, 'visit')}</a>}
+            {p.repo && <a href={p.repo} rel="noopener">{ui(lang, 'source')}</a>}
+          </p>
+        )}
+      </article>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1px; margin-top: 3rem; border-top: 0.5px solid var(--line); }
+  .project { padding: 1.5rem 1.5rem 1.5rem 0; }
+  .project h3 { font-weight: 300; font-size: 1.6rem; margin: 0.25rem 0 0.75rem; }
+  .project__summary { color: var(--text-2); margin: 0 0 1rem; }
+  .project__tags { font-size: 0.65rem; margin: 0 0 1rem; }
+  .project__links { display: flex; gap: 1.25rem; margin: 0; font-size: 0.9rem; }
+  .project__links a { text-decoration: none; color: var(--cyan); }
+</style>

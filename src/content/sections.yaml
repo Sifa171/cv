@@ -1,0 +1,30 @@
+- id: start
+  label: { de: Start, en: Start }
+  headline: { de: "Jede Lösung beginnt mit einer einzigen *Zeile Code.*", en: "Every solution begins with a single *line of code.*" }
+  intro:
+    de: Seit 2011 zwischen Code, Architektur und Vertrieb. Heute bringe ich Hybrid Cloud, Automatisierung und KI in deutsche Unternehmen.
+    en: Working between code, architecture and sales since 2011. Today I bring hybrid cloud, automation and AI to German companies.
+- id: profile
+  label: { de: Profil, en: Profile }
+  headline: { de: "Ich verkaufe Technik, die ich selbst *gebaut habe.*", en: "I sell technology I have *built myself.*" }
+- id: career
+  label: { de: Laufbahn, en: Career }
+  headline: { de: "Von `git init` zu *Enterprise-Deals.*", en: "From `git init` to *enterprise deals.*" }
+  intro:
+    de: "Jede Station ein Commit. Ein Klick öffnet den Diff: was ich dort gebaut, gelernt und bewegt habe."
+    en: "Every role is a commit. Open the diff to see what I built, learned and moved there."
+- id: projects
+  label: { de: Projekte, en: Projects }
+  headline: { de: "Gebaut nach *Feierabend.*", en: "Built *after hours.*" }
+  intro:
+    de: Was ich neben dem Job baue und betreibe.
+    en: What I build and run alongside my job.
+- id: offduty
+  label: { de: Off-Duty, en: Off-duty }
+  headline: { de: "Ausdauer im Wettkampf. Auftritt auf der *großen Bühne.*", en: "Endurance on the course. Performing on the *big stage.*" }
+- id: contact
+  label: { de: Kontakt, en: Contact }
+  headline: { de: "Dein *Zug.*", en: "Your *move.*" }
+  intro:
+    de: Lust auf ein Gespräch über Open Source, Hybrid Cloud oder Triathlon? Schreib mir auf LinkedIn.
+    en: Up for a conversation about open source, hybrid cloud or triathlon? Message me on LinkedIn.

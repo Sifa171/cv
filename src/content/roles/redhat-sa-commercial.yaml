@@ -1,0 +1,16 @@
+id: redhat-sa-commercial
+company: Red Hat
+title: { de: Solution Architect – Commercial Germany, en: Solution Architect – Commercial Germany }
+start: "2023-01"
+end: "2023-09"
+location: { de: "München, remote", en: "Munich, remote" }
+branch: redhat
+summary:
+  de: Technischer Partner mehrerer Account Executives für Commercial-Kunden in Deutschland.
+  en: Technical partner to several account executives for commercial customers in Germany.
+diff:
+  - { type: add, de: Discovery- und Architektur-Workshops mit Kunden, en: Discovery and architecture workshops with customers }
+  - { type: add, de: Demos und Proof of Concepts, en: Demos and proofs of concept }
+  - { type: add, de: "Lösungsdesign und technische Angebote, Begleitung von Deals bis zum Abschluss", en: "Solution design and technical proposals, supporting deals through to close" }
+  - { type: add, de: "Themen: OpenShift, Ansible, RHEL und KI", en: "Topics: OpenShift, Ansible, RHEL and AI" }
+tech: [OpenShift, Ansible, RHEL, Red Hat AI]

@@ -1,0 +1,7 @@
+id: homelab
+order: 2
+name: Homelab
+summary:
+  de: Homeserver mit Proxmox und eigenen VMs für Passwortmanager (Vaultwarden), Dokumentenarchiv (Paperless-ngx) und DNS (AdGuard Home) – automatisiert mit Ansible, verschlüsselte Backups in die Cloud und zu einem Freund.
+  en: A Proxmox home server with dedicated VMs for a password manager (Vaultwarden), document archive (Paperless-ngx) and DNS (AdGuard Home) – automated with Ansible, with encrypted backups to the cloud and to a friend's server.
+tags: [Proxmox, Ansible, restic, Self-hosting]

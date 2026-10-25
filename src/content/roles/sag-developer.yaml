@@ -1,0 +1,13 @@
+id: sag-developer
+company: SPIE (SAG)
+title: { de: Softwareentwickler, en: Software Developer }
+start: "2015-01"
+end: "2015-10"
+location: { de: Dortmund, en: Dortmund }
+branch: sag
+summary:
+  de: Softwareentwicklung im Anschluss an die Ausbildung.
+  en: Software development following my apprenticeship.
+diff:
+  - { type: add, de: Weiterentwicklung des Backends als Softwareentwickler im Team, en: Continued backend development as a software developer on the team }
+tech: [Java]

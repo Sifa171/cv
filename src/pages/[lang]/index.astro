@@ -1,0 +1,38 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import DotNav from '../../components/DotNav.astro';
+import SceneCanvas from '../../components/SceneCanvas.astro';
+import Section from '../../components/Section.astro';
+import Career from '../../components/sections/Career.astro';
+import Contact from '../../components/sections/Contact.astro';
+import Hero from '../../components/sections/Hero.astro';
+import OffDuty from '../../components/sections/OffDuty.astro';
+import Profile from '../../components/sections/Profile.astro';
+import Projects from '../../components/sections/Projects.astro';
+import SectionCounter from '../../components/SectionCounter.astro';
+import Base from '../../layouts/Base.astro';
+import { t, type Lang } from '../../lib/i18n';
+import { SECTION_IDS } from '../../lib/schemas';
+import { SCENE_OF } from '../../scene/types';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'de' } }, { params: { lang: 'en' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const profile = (await getEntry('profile', 'main'))!.data;
+const sections = await getCollection('sections');
+const labelOf = (id: string) => t(sections.find((s) => s.id === id)!.data.label, lang);
+---
+<Base lang={lang} title={`${profile.name} – ${t(profile.title, lang)}`} description={t(profile.summary, lang)}>
+  <Hero lang={lang} />
+  <Profile lang={lang} />
+  <Career lang={lang} />
+  <Projects lang={lang} />
+  <OffDuty lang={lang} />
+  <Contact lang={lang} />
+  <SectionCounter lang={lang} first={labelOf('start')} />
+  <SceneCanvas />
+  <DotNav lang={lang} items={SECTION_IDS.map((id) => ({ id, label: labelOf(id) }))} />
+</Base>
+

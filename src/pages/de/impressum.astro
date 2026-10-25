@@ -1,0 +1,12 @@
+---
+import LegalPage from '../../components/LegalPage.astro';
+import { addressLines, IMPRESSUM_EMAIL } from '../../lib/legal';
+
+const address = addressLines(import.meta.env.IMPRESSUM_ADDRESS);
+---
+<LegalPage lang="de" title="Impressum">
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p>Sebastian Dehn{address.map((line) => <><br />{line}</>)}</p>
+  <h2>Kontakt</h2>
+  <p>E-Mail: <a href={`mailto:${IMPRESSUM_EMAIL}`}>{IMPRESSUM_EMAIL}</a></p>
+</LegalPage>
