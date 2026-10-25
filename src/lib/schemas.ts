@@ -14,6 +14,8 @@ export const roleSchema = z.object({
   end: yearMonth.nullable(),
   location: localized.optional(),
   branch: z.enum(BRANCHES),
+  /** Überschreibt den berechneten Commit-Typ, z. B. merge für einen Wechsel der Rolle. */
+  commitType: z.enum(['init', 'merge', 'feat']).optional(),
   summary: localized,
   diff: z.array(z.object({ type: z.enum(['add', 'remove']), de: z.string().min(1), en: z.string().min(1) })),
   tech: z.array(z.string()),

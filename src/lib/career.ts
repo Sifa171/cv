@@ -18,7 +18,7 @@ export function toCommits(roles: Role[]): Commit[] {
   const ascending = [...roles].sort((a, b) => a.start.localeCompare(b.start));
   const commits = ascending.map((role, i): Commit => {
     const prev = ascending[i - 1];
-    const type: CommitType = !prev ? 'init' : prev.company !== role.company ? 'merge' : 'feat';
+    const type: CommitType = role.commitType ?? (!prev ? 'init' : prev.company !== role.company ? 'merge' : 'feat');
     return { role, hash: commitHash(role.id), type, head: false, lane: LANE_OF[role.branch] };
   });
   const latest = commits.at(-1);

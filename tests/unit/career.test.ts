@@ -24,4 +24,8 @@ describe('toCommits', () => {
       'sag-student': 'init',
     });
   });
+  it('übernimmt einen gesetzten commitType', () => {
+    const withMerge = roles.map((r: any) => (r.id === 'redhat-ae' ? { ...r, commitType: 'merge' } : r));
+    expect(toCommits(withMerge)[0]!.type).toBe('merge');
+  });
 });

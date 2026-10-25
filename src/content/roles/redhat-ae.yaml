@@ -5,9 +5,10 @@ start: "2023-10"
 end: null
 location: { de: "Deutschland, remote", en: "Germany, remote" }
 branch: redhat
+commitType: merge
 summary:
-  de: Vertrieb des Red-Hat-Portfolios für Hybrid Cloud, Automatisierung und KI an Unternehmen im Commercial-Segment in Deutschland.
-  en: Selling Red Hat's hybrid cloud, automation and AI portfolio to commercial-segment companies in Germany.
+  de: Wechsel aus der Technik in den Vertrieb – das Red-Hat-Portfolio für Hybrid Cloud, Automatisierung und KI für Unternehmen im Commercial-Segment in Deutschland.
+  en: Moved from engineering into sales – Red Hat's hybrid cloud, automation and AI portfolio for commercial-segment companies in Germany.
 # TODO(sebastian): Achievements – eigene Sitzung (nur öffentlich nennbare Ergebnisse).
 diff: []
 tech: [OpenShift, Ansible, RHEL, Red Hat AI]
