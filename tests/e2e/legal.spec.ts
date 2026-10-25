@@ -43,3 +43,10 @@ test('unbekannter Pfad zeigt die 404-Seite', async ({ page }) => {
   await expect(page.locator('main a[href="/de/"]')).toHaveCount(1);
   await expect(page.locator('main a[href="/en/"]')).toHaveCount(1);
 });
+
+test('Impressum-E-Mail ist von der Cloudflare-Verschleierung ausgenommen', async ({ request }) => {
+  for (const path of ['/de/impressum/', '/en/imprint/']) {
+    const html = await (await request.get(path)).text();
+    expect(html).toMatch(/<!--email_off--><a href="mailto:impressum@sifa-web\.com">impressum@sifa-web\.com<\/a><!--\/email_off-->/);
+  }
+});
