@@ -1,5 +1,5 @@
 import { measureAnchors } from './anchors';
-import { initialCount, shouldRunWebGL } from './capability';
+import { initialCount, parseStillScene, probeWebGL, shouldRunWebGL } from './capability';
 import { PX, ParticleEngine, type Target } from './engine';
 import { govern, type GovernorState } from './governor';
 import { sceneAt } from './scroll';
@@ -16,17 +16,12 @@ declare global {
 
 const SEED = 7;
 
+/** Sichtbare Fläche ohne klassischen Scrollbalken (die fixierte Canvas ist so breit). */
+const vw = () => document.documentElement.clientWidth;
+const vh = () => document.documentElement.clientHeight;
+
 /** Gibt den Hauptthread kurz frei, damit kein langer Task entsteht. */
 const yieldToMain = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
-
-function hasWebGL(): boolean {
-  try {
-    const c = document.createElement('canvas');
-    return !!(c.getContext('webgl2') ?? c.getContext('webgl'));
-  } catch {
-    return false;
-  }
-}
 
 function translate(data: Float32Array, dx: number, dy: number): Float32Array {
   for (let i = 0; i < data.length; i += 3) {
@@ -55,16 +50,16 @@ function textMask(text: string): Mask {
 export function mountScene(root: HTMLElement): () => void {
   const html = document.documentElement;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!shouldRunWebGL({ hasWebGL: hasWebGL(), reducedMotion })) {
+  if (!shouldRunWebGL({ hasWebGL: probeWebGL(), reducedMotion })) {
     html.classList.add('no-webgl');
     return () => {};
   }
 
   const params = new URLSearchParams(location.search);
-  const stillScene = params.get('still') === '1' ? (params.get('scene') as SceneId | null) : null;
+  const stillScene = parseStillScene(params);
   const debug = import.meta.env.MODE !== 'production' || params.has('debug');
   const coarse = matchMedia('(pointer: coarse)').matches;
-  const maxCount = initialCount({ coarsePointer: coarse, width: innerWidth });
+  const maxCount = initialCount({ coarsePointer: coarse, width: vw() });
 
   const canvas = document.createElement('canvas');
   canvas.className = 'scene-canvas';
@@ -74,7 +69,7 @@ export function mountScene(root: HTMLElement): () => void {
 
   let engine!: ParticleEngine;
   let disposed = false;
-  let governor: GovernorState = { count: maxCount, halvings: 0, lowSince: null };
+  let governor: GovernorState = { count: maxCount, halvings: 0, lowSince: null, maxFps: 0 };
 
   const sections = [...document.querySelectorAll<HTMLElement>('section[data-scene]')];
   let boxes: SectionBox[] = [];
@@ -83,8 +78,8 @@ export function mountScene(root: HTMLElement): () => void {
   let anchorsVersion = 0;
   if (debug) window.__cvScene = { anchorsVersion, count: maxCount };
 
-  const docToWorld = (x: number, y: number): Anchor => ({ x: (x - innerWidth / 2) / PX, y: -y / PX });
-  const viewport = (): Bounds => ({ width: innerWidth / PX, height: innerHeight / PX });
+  const docToWorld = (x: number, y: number): Anchor => ({ x: (x - vw() / 2) / PX, y: -y / PX });
+  const viewport = (): Bounds => ({ width: vw() / PX, height: vh() / PX });
 
   function clusterTarget(ctx: ShapeContext): Target | null {
     const list = document.querySelector<HTMLElement>('.skills');
@@ -175,7 +170,7 @@ export function mountScene(root: HTMLElement): () => void {
     if (boxes.length === 0 && !stillScene) return;
     state = stillScene
       ? { current: stillScene, next: stillScene, morph: 0, local: 0.5 }
-      : sceneAt(boxes, scrollY, innerHeight);
+      : sceneAt(boxes, scrollY, vh());
     const pulseStep = state.current === 'pulse' ? Math.round(state.local * 50) : 0;
     const key = `${state.current}|${state.next}|${pulseStep}`;
     if (key !== lastKey) {
@@ -190,7 +185,7 @@ export function mountScene(root: HTMLElement): () => void {
   let pointer = { x: 999, y: 999 };
   const onPointer = (e: PointerEvent) => {
     if (coarse) return;
-    pointer = { x: (e.clientX - innerWidth / 2) / PX, y: -(e.clientY - innerHeight / 2) / PX };
+    pointer = { x: (e.clientX - vw() / 2) / PX, y: -(e.clientY - vh() / 2) / PX };
     pointerStrength = 1;
   };
 
@@ -208,7 +203,7 @@ export function mountScene(root: HTMLElement): () => void {
   const onResize = () => {
     clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
-      engine.resize(innerWidth, innerHeight);
+      engine.resize(vw(), vh());
       measure();
       if (stillScene) frame(performance.now());
     }, 150);
@@ -230,7 +225,7 @@ export function mountScene(root: HTMLElement): () => void {
     }
     pointerStrength *= 0.96;
     engine.setPointer(pointer.x, pointer.y, pointerStrength);
-    const offset = (scrollY + innerHeight / 2) / PX;
+    const offset = (scrollY + vh() / 2) / PX;
     engine.setFrame({
       morph: state.morph,
       time: stillScene ? 4 : (now - start) / 1000,
@@ -258,15 +253,32 @@ export function mountScene(root: HTMLElement): () => void {
     if (section) {
       html.style.scrollBehavior = 'auto';
       const r = section.getBoundingClientRect();
-      scrollTo(0, r.top + scrollY + r.height / 2 - innerHeight / 2);
+      scrollTo(0, r.top + scrollY + r.height / 2 - vh() / 2);
     }
   }
+  function fallBack(): void {
+    disposed = true;
+    cancelAnimationFrame(raf);
+    layoutObserver.disconnect();
+    removeEventListener('scroll', update);
+    removeEventListener('resize', onResize);
+    removeEventListener('pointermove', onPointer);
+    try {
+      engine?.dispose();
+    } catch {
+      // Engine war nie vollständig gestartet.
+    }
+    canvas.remove();
+    html.classList.remove('webgl');
+    html.classList.add('no-webgl');
+  }
+
   async function boot(): Promise<void> {
     await yieldToMain();
     if (disposed) return;
     engine = new ParticleEngine(canvas, maxCount);
     engine.setCount(maxCount);
-    engine.resize(innerWidth, innerHeight);
+    engine.resize(vw(), vh());
     await yieldToMain();
     if (disposed) return;
     measure();
@@ -292,7 +304,10 @@ export function mountScene(root: HTMLElement): () => void {
     }
   }
   for (const type of ['wheel', 'touchstart', 'keydown'] as const) addEventListener(type, onUserScroll, { passive: true, once: true });
-  void boot();
+  void boot().catch((error: unknown) => {
+    console.warn('Partikelszene nicht verfügbar, zeige Standbilder.', error);
+    fallBack();
+  });
 
   return () => {
     disposed = true;

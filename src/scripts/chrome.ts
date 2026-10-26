@@ -1,5 +1,8 @@
 /** Abschnittszähler, Punktnavigation und Sprachwechsel mit Anker. */
 export function initChrome(): void {
+  const path = document.querySelector('[data-path]');
+  if (path) path.textContent = location.pathname;
+
   const sections = [...document.querySelectorAll<HTMLElement>('section[data-index]')];
   const indexEl = document.querySelector('[data-counter-index]');
   const labelEl = document.querySelector('[data-counter-label]');

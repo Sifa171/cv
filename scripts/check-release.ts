@@ -9,7 +9,7 @@ function walk(dir: string): string[] {
   });
 }
 
-const sources = ['src/content', 'src/pages'].flatMap(walk);
+const sources = existsSync('src') ? walk('src') : [];
 // Im Build landen Werte aus der Umgebung (z. B. die Impressum-Anschrift); fehlt einer, steht dort ein Platzhalter.
 const built = existsSync('dist') ? walk('dist').filter((p) => p.endsWith('.html')) : [];
 const files = [...sources, ...built].map((path) => ({ path, text: readFileSync(path, 'utf8') }));
