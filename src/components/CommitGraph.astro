@@ -27,7 +27,7 @@ const x = (lane: number) => ((lane + 0.5) / LANES) * 100;
             {above && <line x1={(x(above.lane) + xs) / 2} y1="0" x2={xs} y2="50" />}
             {below && <line x1={xs} y1="50" x2={(x(below.lane) + xs) / 2} y2="100" />}
           </svg>
-          <span class={`commit-node lane-${c.lane}`} style={`left: ${xs}%`}></span>
+          <span class={`commit-node lane-${c.lane}`}></span>
         </div>
         <details>
           <summary>
@@ -66,8 +66,9 @@ const x = (lane: number) => ((lane + 0.5) / LANES) * 100;
     position: absolute; top: 1.35rem; width: 0.6rem; height: 0.6rem; margin: -0.3rem 0 0 -0.3rem;
     border-radius: 50%; background: var(--bg); border: 1.5px solid var(--violet);
   }
-  .commit-node.lane-0 { border-color: var(--cyan); }
-  .commit-node.lane-1 { border-color: var(--indigo); }
+  .commit-node.lane-0 { left: calc(100% / 6); border-color: var(--cyan); }
+  .commit-node.lane-1 { left: 50%; border-color: var(--indigo); }
+  .commit-node.lane-2 { left: calc(500% / 6); }
   .commit:first-child .commit-node { background: var(--violet); }
   details { padding: 0.6rem 0; border-bottom: 0.5px solid var(--line); min-width: 0; }
   summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; align-items: baseline; }

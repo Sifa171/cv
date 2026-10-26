@@ -12,7 +12,7 @@ test.describe('Partikelszene', () => {
     page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto('/de/?debug=1');
-    await expect(page.locator('html')).toHaveClass(/\bwebgl\b/);
+    await expect(page.locator('html')).toHaveClass(/(^|\s)webgl(\s|$)/);
     await expect(page.locator('canvas')).toHaveCount(1);
     await expect(page.locator('canvas')).toHaveAttribute('aria-hidden', 'true');
     await page.mouse.wheel(0, 3000);
@@ -31,7 +31,7 @@ test.describe('Partikelszene', () => {
 
   test('Skills bleiben als Text lesbar', async ({ page }) => {
     await page.goto('/de/?debug=1');
-    await expect(page.locator('html')).toHaveClass(/\bwebgl\b/);
+    await expect(page.locator('html')).toHaveClass(/(^|\s)webgl(\s|$)/);
     await page.locator('#profile').scrollIntoViewIfNeeded();
     await expect(page.locator('#profile .skill[data-skill="OpenShift"]')).toBeVisible();
   });
@@ -47,7 +47,7 @@ test.describe('Partikelszene', () => {
 
   test('404-Seite bekommt ebenfalls die Szene', async ({ page }) => {
     await page.goto('/nirgendwo/');
-    await expect(page.locator('html')).toHaveClass(/\bwebgl\b/);
+    await expect(page.locator('html')).toHaveClass(/(^|\s)webgl(\s|$)/);
     await expect(page.locator('canvas')).toHaveCount(1);
   });
 });

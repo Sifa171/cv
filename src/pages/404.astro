@@ -4,10 +4,10 @@ import Base from '../layouts/Base.astro';
 ---
 <Base lang="en" title="404 Not Found – Sebastian Dehn" description="404 Not Found" bare alternates={false}>
   <section class="notfound" data-scene="notfound" data-index="404">
-    <p class="mono-label">$ curl -I {Astro.url.pathname}</p>
+    <p class="mono-label">$ curl -I <span data-path>/</span></p>
     <h1>404 Not Found</h1>
-    <p class="notfound__sub">Seite nicht gefunden · Page not found</p>
-    <p class="notfound__links"><a href="/de/">← Startseite</a><a href="/en/">← Home</a></p>
+    <p class="notfound__sub"><span lang="de">Seite nicht gefunden</span> · Page not found</p>
+    <p class="notfound__links"><a href="/de/" lang="de">← Startseite</a><a href="/en/">← Home</a></p>
   </section>
   <SceneCanvas />
 </Base>

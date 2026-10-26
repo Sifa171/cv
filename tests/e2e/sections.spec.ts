@@ -1,4 +1,8 @@
+import { readdirSync, readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
+import { parse } from 'yaml';
+
+const PROJECTS = readdirSync('src/content/projects').map((f) => parse(readFileSync(`src/content/projects/${f}`, 'utf8')));
 
 const SKILLS = ['OpenShift', 'Kubernetes', 'Ansible', 'Red Hat Enterprise Linux', 'Docker', 'Java', 'Shell', 'DevOps'];
 const IDS = ['start', 'profile', 'career', 'projects', 'offduty', 'contact'];
@@ -16,7 +20,7 @@ for (const lang of ['de', 'en'] as const) {
       await expect(page.locator('#profile dl')).toContainText(/roles:\s*8/);
       for (const name of ['Katria', 'Homelab', 'sifa-web.com']) await expect(page.locator('#projects')).toContainText(name);
       await expect(page.locator('#projects a[href="https://github.com/Sifa171/cv"]')).toHaveCount(1);
-      await expect(page.locator('#projects [data-project="homelab"] a')).toHaveCount(0);
+      for (const p of PROJECTS.filter((p) => !p.url && !p.repo)) await expect(page.locator(`#projects [data-project="${p.id}"] a`)).toHaveCount(0);
       await expect(page.locator('#offduty')).toContainText('Triathlon');
       await expect(page.locator('#offduty')).toContainText('MGM Grand');
       expect(await page.locator('#offduty [data-offduty]').evaluateAll((els) => els.map((e) => e.getAttribute('data-offduty')))).toEqual(['triathlon', 'stage']);

@@ -24,6 +24,8 @@ export const roleSchema = z.object({
 export const profileSchema = z.object({
   name: z.string().min(1),
   title: localized,
+  /** Kurzform für die Hero-Zeile, z. B. „Account Executive · Red Hat“. */
+  tagline: localized,
   location: localized,
   summary: localized,
   skills: z.array(z.string().min(1)).min(1),

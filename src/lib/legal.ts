@@ -1,5 +1,6 @@
 /** Platzhalter, solange keine Anschrift gesetzt ist; die Release-Prüfung findet ihn im Build. */
-const MISSING = 'PLATZHALTER(impressum-anschrift)';
+// Zusammengesetzt, damit die Release-Prüfung (die ganz src/ durchsucht) nur den Platzhalter im Build findet.
+const MISSING = ['PLATZHALTER', '(impressum-anschrift)'].join('');
 
 /** Anschrift fürs Impressum kommt aus der Umgebung (GitHub-Secret bzw. lokale .env), nie aus dem Repo. */
 export function addressLines(value: string | undefined): string[] {

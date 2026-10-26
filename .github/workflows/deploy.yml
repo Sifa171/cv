@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Monatlich neu bauen, damit Kennzahlen (uptime, red_hat) und Jahresangaben aktuell bleiben.
+  schedule:
+    - cron: '17 5 1 * *'
 
 concurrency:
   group: deploy

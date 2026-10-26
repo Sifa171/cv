@@ -1,7 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import { ui } from '../../i18n/ui';
-import type { Lang } from '../../lib/i18n';
+import { t, type Lang } from '../../lib/i18n';
 import { SCENE_OF } from '../../scene/types';
 import Section from '../Section.astro';
 
@@ -11,7 +11,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const profile = (await getEntry('profile', 'main'))!.data;
-const kicker = `${profile.name} · ${lang === 'de' ? 'Account Executive · Red Hat' : 'Account Executive · Red Hat'}`;
+const kicker = `${profile.name} · ${t(profile.tagline, lang)}`;
 ---
 <Section id="start" index={0} scene={SCENE_OF.start} lang={lang} heading="h1" kicker={kicker}>
   <div class="hero__actions">
